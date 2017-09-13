@@ -53,8 +53,8 @@ public class DBmySQL {
     }
 
     public ArrayList<produkty> getProdukty(){
-        ArrayList<produkty> produkty = new ArrayList<produkty>();
-
+        ArrayList<produkty> products = new ArrayList<produkty>();
+        products.add(new produkty(0, 0, "Kawa", 13.43f));
         //initial
 
 //sad
@@ -62,7 +62,7 @@ public class DBmySQL {
         //sadasd
 
 
-        return produkty;
+        return products;
     }
 
 }

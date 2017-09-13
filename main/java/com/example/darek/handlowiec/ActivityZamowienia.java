@@ -20,9 +20,10 @@ public class ActivityZamowienia extends Activity {
     //arraylist z zaznaczonymi rzeczami z niej zapisac zamówienie do bazy
     ArrayList<produkty> selectedItems = new ArrayList<produkty>();
     //arrayList z oferowanymi produktami
-    ArrayList<produkty> items = new ArrayList<produkty>();
+    ArrayList<produkty> items;
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
+    DBmySQL sql = new DBmySQL();
 
     public long idzaznaczone;
     public String IloscProduktow;
@@ -101,11 +102,6 @@ public class ActivityZamowienia extends Activity {
     }
 
     public void FillProdukty(){
-        //przy łądowaniu z bazy sprawdz kolejnosc id w array liscie id od 0
-
-        //lista oferowanych produktów z bazy wyświetlanych na ekranie
-        for(int i = 0;i < 24;i++){
-            items.add(new produkty(i,"kawa"+ i, 23.32f + i));
-        }
+        items = sql.getProdukty();
     }
 }
