@@ -23,6 +23,7 @@ public class ActivityZamowienia extends Activity {
     ArrayList<produkty> items;
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
+    DB sqlLocal;
     DBmySQL sql = new DBmySQL();
 
     public long idzaznaczone;
@@ -102,6 +103,6 @@ public class ActivityZamowienia extends Activity {
     }
 
     public void FillProdukty(){
-        items = sql.getProdukty();
+        items = sqlLocal.getProducts();
     }
 }

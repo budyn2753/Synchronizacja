@@ -3,9 +3,11 @@ package com.example.darek.handlowiec;
 import android.widget.ArrayAdapter;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -20,7 +22,7 @@ public class DBmySQL {
         try {
 
 
-            String link = "http://192.168.1.69:8080/sync/logon.php";
+            String link = "http://192.168.0.99/logon.php";
             String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
             data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +
                     URLEncoder.encode(password, "UTF-8");
@@ -52,17 +54,22 @@ public class DBmySQL {
         }
     }
 
-    public ArrayList<produkty> getProdukty(){
-        ArrayList<produkty> products = new ArrayList<produkty>();
-        products.add(new produkty(0, 0, "Kawa", 13.43f));
-        //initial
+    public void saveProdukty(){
+        try {
+            String link = "http://192.168.0.99/getProdukty.php";
+            URL url = new URL(link);
+            URLConnection conn = url.openConnection();
 
-//sad
+            BufferedReader reader = new BufferedReader(new
+                    InputStreamReader(conn.getInputStream()));
 
-        //sadasd
 
 
-        return products;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
 }
