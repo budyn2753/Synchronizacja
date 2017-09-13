@@ -55,7 +55,7 @@ public class DBmySQL {
     public ArrayList<produkty> getProdukty(){
         ArrayList<produkty> produkty = new ArrayList<produkty>();
 
-        
+        //initial
 
 
 
