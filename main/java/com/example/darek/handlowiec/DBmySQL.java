@@ -58,7 +58,6 @@ public class DBmySQL {
         //initial
 
 //sad
-        //sss
 
 
         return produkty;
