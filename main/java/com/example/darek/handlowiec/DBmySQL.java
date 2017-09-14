@@ -72,7 +72,6 @@ public class DBmySQL {
 
             StringBuilder sb = new StringBuilder();
             String line = "";
-
             // Read Server Response
 
 

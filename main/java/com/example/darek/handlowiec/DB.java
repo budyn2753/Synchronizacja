@@ -32,6 +32,8 @@ public class DB extends SQLiteOpenHelper {
     //wersja bazy
     private static final int DB_VERSION =1;
 
+    private DBmySQL mySQL = new DBmySQL();
+
     //KONSTRUKTOR
     public DB(Context context){super(context,DB_NAZWA,null,DB_VERSION);}
 
@@ -117,6 +119,14 @@ public class DB extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);
+
+    }
+    public void syncProdukty(){
+        //db.clearProdukty();
+        String line = mySQL.syncProdukty();
+        String[] temps = line.split(",");
+        this.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
+
 
     }
     public ArrayList<produkty> getProducts(){

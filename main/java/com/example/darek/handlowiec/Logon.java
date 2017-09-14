@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class Logon extends AppCompatActivity {
@@ -35,17 +36,19 @@ public class Logon extends AppCompatActivity {
         new SigninActivity(this,status,idHandlowca).execute(username, password);
         //mySQL = new DBmySQL();
         //mySQL.syncProdukty();
+        //String line = mySQL.syncProdukty();
 
+        //Toast.makeText(this,line, Toast.LENGTH_LONG).show();
+        //String[] temps = line.split(",");
+        //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 
-       Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
-       startActivity(StartNewActivity);
+       //Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
+       //startActivity(StartNewActivity);
+
     }
 
-    public void syncProdukty(View view){
-        db.clearProdukty();
-        String line = mySQL.syncProdukty();
-        String[] temps = line.split(",");
-        db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
+    public void syncProdukty(){
+        db.syncProdukty();
 
     }
 }

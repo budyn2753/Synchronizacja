@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 /**
@@ -41,7 +42,9 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         //xD
         //nowy commit xDDD
         String result = sql.Logon(username, password);
-        sql.syncProdukty();
+
+
+
 
         return result;
     }
