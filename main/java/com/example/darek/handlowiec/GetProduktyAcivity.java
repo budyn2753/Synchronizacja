@@ -22,26 +22,12 @@ import android.widget.Toast;
  * Created by Darek on 2017-09-12.
  */
 
-public class GetProduktyAcivity extends AsyncTask<String,String,String> {
-
-    private DBmySQL sql ;
-    private TextView statusField;
-    private Context context;
-
-    public String text;
-
-    public GetProduktyAcivity(Context context, TextView status, String text) {
-        this.context = context;
-        this.statusField = status;
-        this.text = text;
-
-
-        this.sql = new DBmySQL();
-
-    }
+public class GetProduktyAcivity extends AsyncTask<Object,Object,String> {
+    public AsyncResponse delegate = null;
 
     @Override
-    protected String doInBackground(String... arg0) {
+    protected String doInBackground(Object... params) {
+
 
         try {
 
@@ -61,9 +47,9 @@ public class GetProduktyAcivity extends AsyncTask<String,String,String> {
                 sb.append(line);
                 break;
             }
-            text = sb.toString();
-            return text;
+            sb.toString();
 
+            return sb.toString();
 
         } catch(MalformedURLException e){
             return new String (e.getMessage());
@@ -72,9 +58,9 @@ public class GetProduktyAcivity extends AsyncTask<String,String,String> {
         }
     }
     @Override
-    protected void onPostExecute(String text){
-
-
+    protected void onPostExecute(String result)
+    {
+        delegate.processFinish(result);
     }
 
 }

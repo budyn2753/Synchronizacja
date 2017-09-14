@@ -33,8 +33,7 @@ public class DB extends SQLiteOpenHelper {
     //wersja bazy
     private static final int DB_VERSION =1;
 
-    private DBmySQL mySQL = new DBmySQL();
-    public  String[] temps;
+
 
     //KONSTRUKTOR
     public DB(Context context){super(context,DB_NAZWA,null,DB_VERSION);}
@@ -117,7 +116,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
     public void clearProdukty(){
-        String sql= "Delate FROM " +TABELA_PRODUKTOW+ ";";
+        String sql= "Delete FROM " +TABELA_PRODUKTOW+ ";";
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL(sql);

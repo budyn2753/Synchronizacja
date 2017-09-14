@@ -26,6 +26,7 @@ public class ActivityZamowienia extends Activity {
     ArrayList<String> displayed = new ArrayList<String>();
     DB sqlLocal;
     DBmySQL sqll;
+    //Logon logon = new Logon();
 
 
     public long idzaznaczone;

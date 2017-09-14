@@ -9,8 +9,10 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 
-public class Logon extends AppCompatActivity  {
+
+public class Logon extends AppCompatActivity implements AsyncResponse {
 
     private EditText usernameField, passwordField;
     private TextView status;
@@ -18,11 +20,12 @@ public class Logon extends AppCompatActivity  {
     public String text;
     private DBmySQL mySQL = new DBmySQL();
     DB db;
-    String linew;
+    GetProduktyAcivity sm = new GetProduktyAcivity();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sm.delegate = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon);
         db = new DB(this);
@@ -31,36 +34,40 @@ public class Logon extends AppCompatActivity  {
         usernameField = (EditText)findViewById(R.id.loginField);
         passwordField = (EditText)findViewById(R.id.passwordField);
         status =(TextView)findViewById(R.id.textViewPowitanie);
+        sm.execute();
 
     }
+
 
     public void login (View view){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
         new SigninActivity(this,status,idHandlowca).execute(username, password);
 
-        //mySQL = new DBmySQL();
-        //mySQL.syncProdukty();
-        //String line = mySQL.syncProdukty();
+        // Explicit Intent by specifying its class name
+        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
 
+// Starts TargetActivity
+        startActivity(i);
 
-        new GetProduktyAcivity(this,status, text).execute();
-        Toast.makeText(this,text, Toast.LENGTH_LONG).show();
-        //String[] temps = line.split(",");
-        //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
-
-
-
-      //  db.addProdukt(1,"Kawa",15.60,4);
-       //Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
-       //startActivity(StartNewActivity);
-
+    }
+    public void addingProductsFromRequest(String text){
+        String[] temp =text.split(",");
+        db.addProdukt(Integer.parseInt(temp[0]),temp[1],Double.parseDouble(temp[2]),Integer.parseInt(temp[3]));
 
     }
 
     public void onClick(View v){
-        String line = mySQL.getProduktyFromMySQL();
-        Toast.makeText(this,line, Toast.LENGTH_LONG).show();
+        db.clearProdukty();
+        Toast.makeText(this,text,Toast.LENGTH_LONG).show();
+        addingProductsFromRequest(text);
 
+
+    }
+
+
+    @Override
+    public void processFinish(String output) {
+        text =output;
     }
 }
