@@ -41,7 +41,7 @@ public class ActivityZamowienia extends Activity {
         FillProdukty();
 
         for(produkty x: items){
-            displayed.add("id: " + x.getId() + " nazwa: " + x.getNazwa() + " cena: " + x.getCena());
+            displayed.add(x.getNazwa() + " Cena: " + x.getCena());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.rowlayout, R.id.txt_lan, displayed);
@@ -49,6 +49,7 @@ public class ActivityZamowienia extends Activity {
         chl.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                
                 idzaznaczone = id;
 
                 //wyswitla dialog do wpisania ilosci klasa z 2 zmienymi nazwa produktu ilosc zaznacza produkt podaj ilosc jak odznacza to ilosc 0 i usuwa z listy
@@ -59,7 +60,7 @@ public class ActivityZamowienia extends Activity {
                     selectedItems.remove(new produkty((int)id));
                     TextView x = (TextView)view;
                     produkty tmp = items.get(items.indexOf(new produkty((int)idzaznaczone)));
-                    x.setText("id: " + tmp.getId() + " nazwa: " + tmp.getNazwa() + " cena: " + tmp.getCena());
+                    x.setText(tmp.getNazwa() + " Cena: " + tmp.getCena());
                 }
 
                 else
@@ -108,7 +109,7 @@ public class ActivityZamowienia extends Activity {
         //tu poprostu zapisze sie zamówienie do bazy
         String items="";
         for(produkty item:selectedItems){
-            items+="-id: "+item.getId()+ " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + "\n";
+            items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
         }
         Toast.makeText(this,"Zaznaczyłeś\n" + items, Toast.LENGTH_LONG).show();
     }

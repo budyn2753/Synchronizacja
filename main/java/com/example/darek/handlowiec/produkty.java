@@ -43,6 +43,7 @@ public class produkty {
         setNazwa(xxx.getNazwa());
         setCena(xxx.getCena());
         setIlosc(ilosc_k);
+        setId_baza(xxx.getId_baza());
     }
 
     @Override
