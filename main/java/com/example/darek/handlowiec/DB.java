@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class DB extends SQLiteOpenHelper {
     private static final int DB_VERSION =1;
 
     private DBmySQL mySQL = new DBmySQL();
+    public  String[] temps;
 
     //KONSTRUKTOR
     public DB(Context context){super(context,DB_NAZWA,null,DB_VERSION);}
@@ -124,9 +126,8 @@ public class DB extends SQLiteOpenHelper {
     public void syncProdukty(){
         //db.clearProdukty();
         String line = mySQL.syncProdukty();
-        String[] temps = line.split(",");
+        temps= line.split(",");
         this.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
-
 
     }
     public ArrayList<produkty> getProducts(){
