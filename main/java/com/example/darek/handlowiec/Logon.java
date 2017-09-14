@@ -17,6 +17,7 @@ public class Logon extends AppCompatActivity  {
     public int idHandlowca;
     private DBmySQL mySQL = new DBmySQL();
     DB db;
+    String linew;
 
 
     @Override
@@ -35,12 +36,16 @@ public class Logon extends AppCompatActivity  {
     public void login (View view){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
-        new SigninActivity(this,status,idHandlowca).execute(username, password);
+        SigninActivity xt = new SigninActivity(this,status,idHandlowca);
+        xt.execute(username, password);
+
+        linew = xt.line;
+
         //mySQL = new DBmySQL();
         //mySQL.syncProdukty();
         //String line = mySQL.syncProdukty();
 
-        //Toast.makeText(this,line, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,linew, Toast.LENGTH_LONG).show();
         //String[] temps = line.split(",");
         //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 

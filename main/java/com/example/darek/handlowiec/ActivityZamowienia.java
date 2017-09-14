@@ -25,6 +25,7 @@ public class ActivityZamowienia extends Activity {
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
     DB sqlLocal;
+    DBmySQL sqll;
 
 
     public long idzaznaczone;
@@ -33,6 +34,7 @@ public class ActivityZamowienia extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sqlLocal = new DB(this);
+        sqll = new DBmySQL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
         ListView chl = (ListView)findViewById(R.id.checkable_list);
@@ -119,6 +121,7 @@ public class ActivityZamowienia extends Activity {
 
     public void FillProdukty(){
 
-        items = sqlLocal.getProducts();
+        //String tmptmp = SigninActivity.this.line;
+        //Toast.makeText(this,tmptmp, Toast.LENGTH_LONG).show();
     }
 }

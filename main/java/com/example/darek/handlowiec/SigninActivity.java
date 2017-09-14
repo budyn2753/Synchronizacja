@@ -31,7 +31,7 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         this.context = context;
         this.statusField = statusField;
         this.sql = new DBmySQL();
-
+        ;
     }
 
     @Override
@@ -40,15 +40,11 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         String username = (String) arg0[0];
         String password = (String) arg0[1];
 
-        //xD
-        //nowy commit xDDD
         String result = sql.Logon(username, password);
-        line =sql.getProduktyFromMySQL();
-
-
-
+        //line = sql.getProduktyFromMySQL();
 
         return result;
+
     }
     @Override
     protected void onPostExecute(String result){
