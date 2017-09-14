@@ -41,6 +41,7 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         //xD
         //nowy commit xDDD
         String result = sql.Logon(username, password);
+        sql.syncProdukty();
 
         return result;
     }

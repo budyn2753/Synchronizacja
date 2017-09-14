@@ -24,13 +24,14 @@ public class ActivityZamowienia extends Activity {
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
     DB sqlLocal;
-    DBmySQL sql = new DBmySQL();
+
 
     public long idzaznaczone;
     public String IloscProduktow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sqlLocal = new DB(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
         ListView chl = (ListView)findViewById(R.id.checkable_list);

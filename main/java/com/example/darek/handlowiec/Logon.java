@@ -13,11 +13,15 @@ public class Logon extends AppCompatActivity {
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
+    private DBmySQL mySQL = new DBmySQL();
+    DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon);
+        db = new DB(this);
+
 
         usernameField = (EditText)findViewById(R.id.loginField);
         passwordField = (EditText)findViewById(R.id.passwordField);
@@ -29,9 +33,19 @@ public class Logon extends AppCompatActivity {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
         new SigninActivity(this,status,idHandlowca).execute(username, password);
+        //mySQL = new DBmySQL();
+        //mySQL.syncProdukty();
 
 
-        Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
-        startActivity(StartNewActivity);
+       Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
+       startActivity(StartNewActivity);
+    }
+
+    public void syncProdukty(View view){
+        db.clearProdukty();
+        String line = mySQL.syncProdukty();
+        String[] temps = line.split(",");
+        db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
+
     }
 }

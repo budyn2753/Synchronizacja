@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class DB extends SQLiteOpenHelper {
 
     //Stałe w bazie tj. nazwabazy, nazwa tabeli, nazwa kolumn
-    public static final String DB_NAZWA ="HandlowiecDB";
+    public static final String DB_NAZWA ="android";
     public static final String TABELA_KLIENTOW ="Klienci";
     public static final String TABELA_PRODUKTOW ="Produkty";
     public static final String KOLUMNA_ID_KLIENT ="id";
@@ -57,7 +57,7 @@ public class DB extends SQLiteOpenHelper {
     //upgrading db
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = "DROP TABLE IF EXIST Persons";
+        String sql = "DROP TABLE IF EXIST Klienci";
         String sql1 = "DROP TABLE IF EXIST Produkty";
         db.execSQL(sql);
         db.execSQL(sql1);
@@ -86,7 +86,7 @@ public class DB extends SQLiteOpenHelper {
         contentValues.put(KOLUMNA_ILOSC, Ilosc);
         contentValues.put(KOLUMNA_ID_BAZA,id_Baza);
 
-        db.insert(TABELA_KLIENTOW, null, contentValues);
+        db.insert(TABELA_PRODUKTOW, null, contentValues);
         db.close();
         return true;
     }
@@ -112,9 +112,16 @@ public class DB extends SQLiteOpenHelper {
         return c;
     }
 
+    public void clearProdukty(){
+        String sql= "Delate FROM " +TABELA_PRODUKTOW+ ";";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
+
+    }
     public ArrayList<produkty> getProducts(){
         ArrayList<produkty> products = new ArrayList<>();
-        String sql ="Select * FROM" +TABELA_PRODUKTOW + " Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
+        String sql ="Select * FROM " +TABELA_PRODUKTOW + " Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);

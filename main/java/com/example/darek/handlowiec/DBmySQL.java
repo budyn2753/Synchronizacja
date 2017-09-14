@@ -18,6 +18,8 @@ import java.util.ArrayList;
  */
 
 public class DBmySQL {
+
+
     public String Logon(String username, String password){
         try {
 
@@ -40,36 +42,53 @@ public class DBmySQL {
                     InputStreamReader(conn.getInputStream()));
 
             StringBuilder sb = new StringBuilder();
-            String line = null;
+            String line = "";
 
             // Read Server Response
             while ((line = reader.readLine()) != null) {
                 sb.append(line);
-                break;
+               break;
             }
 
+
             return sb.toString();
+
         } catch (Exception e) {
             return new String("Exception: " + e.getMessage());
         }
+
     }
 
-    public void saveProdukty(){
+    public String syncProdukty() {
+
         try {
+
             String link = "http://192.168.0.99/getProdukty.php";
             URL url = new URL(link);
             URLConnection conn = url.openConnection();
 
-            BufferedReader reader = new BufferedReader(new
-                    InputStreamReader(conn.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
 
+            StringBuilder sb = new StringBuilder();
+            String line = "";
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            // Read Server Response
+
+
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                    break;
+                }
+                return sb.toString();
+
+
+            } catch(MalformedURLException e){
+                return new String (e.getMessage());
+            } catch(IOException e){
+            return new String (e.getMessage());
+            }
+
+
         }
-
-
     }
-
-}
