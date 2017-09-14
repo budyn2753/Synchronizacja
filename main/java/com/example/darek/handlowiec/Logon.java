@@ -4,18 +4,20 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class Logon extends AppCompatActivity {
+public class Logon extends AppCompatActivity  {
 
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
     private DBmySQL mySQL = new DBmySQL();
     DB db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +44,16 @@ public class Logon extends AppCompatActivity {
         //String[] temps = line.split(",");
         //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 
-       //Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
-       //startActivity(StartNewActivity);
+
+        db.addProdukt(1,"Kawa",15.60,4);
+       Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
+       startActivity(StartNewActivity);
 
     }
 
-    public void syncProdukty(){
-        db.syncProdukty();
+    public void onClick(View v){
+        String line = mySQL.getProduktyFromMySQL();
+        Toast.makeText(this,line, Toast.LENGTH_LONG).show();
 
     }
 }

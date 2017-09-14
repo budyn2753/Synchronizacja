@@ -100,7 +100,7 @@
         android:layout_width="344dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="63dp"
-        android:onClick="syncProdukty"
+        android:onClick="onClick"
         android:text="Dalej"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
