@@ -121,6 +121,10 @@ public class DB extends SQLiteOpenHelper {
     }
     public ArrayList<produkty> getProducts(){
         ArrayList<produkty> products = new ArrayList<>();
+        products.add(new produkty(0,0,"Kawa",23.34f));
+        products.add(new produkty(1,1,"Frytki",45.84f));
+        products.add(new produkty(2,4,"ketchup",895.84f));
+        /*
         String sql ="Select * FROM " +TABELA_PRODUKTOW + " Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
 
         SQLiteDatabase db =this.getReadableDatabase();
@@ -132,7 +136,7 @@ public class DB extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
 
-
+        */
 
         return products;
     }

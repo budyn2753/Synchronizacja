@@ -114,6 +114,7 @@ public class ActivityZamowienia extends Activity {
     }
 
     public void FillProdukty(){
+
         items = sqlLocal.getProducts();
     }
 }
