@@ -59,7 +59,7 @@ public class DBmySQL {
 
     }
 
-    public String syncProdukty() {
+    public String getProduktyFromMySQL() {
 
         try {
 

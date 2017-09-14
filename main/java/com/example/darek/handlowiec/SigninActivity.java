@@ -25,6 +25,7 @@ public class SigninActivity extends AsyncTask<String,String,String> {
     private DBmySQL sql;
     private TextView statusField;
     private Context context;
+    public String line;
 
     public SigninActivity(Context context,TextView statusField,int flag) {
         this.context = context;
@@ -42,6 +43,7 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         //xD
         //nowy commit xDDD
         String result = sql.Logon(username, password);
+        line =sql.getProduktyFromMySQL();
 
 
 
