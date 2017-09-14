@@ -18,6 +18,7 @@ public class Logon extends AppCompatActivity  {
     public String text;
     private DBmySQL mySQL = new DBmySQL();
     DB db;
+    String linew;
 
 
     @Override
@@ -36,10 +37,12 @@ public class Logon extends AppCompatActivity  {
     public void login (View view){
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
-        //new SigninActivity(this,status,idHandlowca).execute(username, password);
+        new SigninActivity(this,status,idHandlowca).execute(username, password);
+
         //mySQL = new DBmySQL();
         //mySQL.syncProdukty();
         //String line = mySQL.syncProdukty();
+
 
         new GetProduktyAcivity(this,status, text).execute();
         Toast.makeText(this,text, Toast.LENGTH_LONG).show();
@@ -47,9 +50,11 @@ public class Logon extends AppCompatActivity  {
         //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 
 
+
       //  db.addProdukt(1,"Kawa",15.60,4);
        //Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
        //startActivity(StartNewActivity);
+
 
     }
 

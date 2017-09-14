@@ -25,6 +25,7 @@ public class ActivityZamowienia extends Activity {
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
     DB sqlLocal;
+    DBmySQL sqll;
 
 
     public long idzaznaczone;
@@ -33,6 +34,7 @@ public class ActivityZamowienia extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sqlLocal = new DB(this);
+        sqll = new DBmySQL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
         ListView chl = (ListView)findViewById(R.id.checkable_list);
@@ -49,7 +51,10 @@ public class ActivityZamowienia extends Activity {
         chl.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                
+                //sqlLocal.syncProdukty();
+               // String[] xW = sqlLocal.temps;
+               // String xD = xW[0] + xW[1] + xW[2];
+                Toast.makeText(ActivityZamowienia.this,"no halo", Toast.LENGTH_LONG).show();
                 idzaznaczone = id;
 
                 //wyswitla dialog do wpisania ilosci klasa z 2 zmienymi nazwa produktu ilosc zaznacza produkt podaj ilosc jak odznacza to ilosc 0 i usuwa z listy
@@ -116,6 +121,7 @@ public class ActivityZamowienia extends Activity {
 
     public void FillProdukty(){
 
-        items = sqlLocal.getProducts();
+        //String tmptmp = SigninActivity.this.line;
+        //Toast.makeText(this,tmptmp, Toast.LENGTH_LONG).show();
     }
 }
