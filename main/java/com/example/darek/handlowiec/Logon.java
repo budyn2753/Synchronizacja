@@ -42,8 +42,8 @@ public class Logon extends AppCompatActivity {
         //String[] temps = line.split(",");
         //db.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 
-       //Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
-       //startActivity(StartNewActivity);
+       Intent StartNewActivity = new Intent(this, ActivityZamowienia.class);
+       startActivity(StartNewActivity);
 
     }
 

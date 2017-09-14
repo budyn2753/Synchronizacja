@@ -49,7 +49,10 @@ public class ActivityZamowienia extends Activity {
         chl.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                
+                //sqlLocal.syncProdukty();
+               // String[] xW = sqlLocal.temps;
+               // String xD = xW[0] + xW[1] + xW[2];
+                Toast.makeText(ActivityZamowienia.this,"no halo", Toast.LENGTH_LONG).show();
                 idzaznaczone = id;
 
                 //wyswitla dialog do wpisania ilosci klasa z 2 zmienymi nazwa produktu ilosc zaznacza produkt podaj ilosc jak odznacza to ilosc 0 i usuwa z listy
