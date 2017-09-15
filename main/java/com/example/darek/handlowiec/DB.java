@@ -114,6 +114,14 @@ public class DB extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(sql,null);
         return c;
     }
+    public Cursor getProdukt(){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT * FROM "+ TABELA_PRODUKTOW+" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
+
+        Cursor c = db.rawQuery(sql,null);
+        return c;
+    }
 
     public void clearProdukty(){
         String sql= "Delete FROM " +TABELA_PRODUKTOW+ ";";
@@ -122,6 +130,8 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql);
 
     }
+
+
     public void syncProdukty(){
         //db.clearProdukty();
         //String line = mySQL.syncProdukty();

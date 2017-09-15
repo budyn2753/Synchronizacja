@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 public class SigninActivity extends AsyncTask<String,String,String> {
 
-    private DBmySQL sql;
+
     private TextView statusField;
     private Context context;
 
@@ -30,10 +30,8 @@ public class SigninActivity extends AsyncTask<String,String,String> {
 
     public SigninActivity(Context context,TextView statusField,int flag) {
         this.context = context;
-
         this.statusField = statusField;
-        this.sql = new DBmySQL();
-        ;
+
     }
 
     @Override
@@ -42,10 +40,44 @@ public class SigninActivity extends AsyncTask<String,String,String> {
         String username = (String) arg0[0];
         String password = (String) arg0[1];
 
-        String result = sql.Logon(username, password);
+        try {
 
 
-        return result;
+            String link = "http://192.168.0.99/logon.php";
+            String data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
+            data += "&" + URLEncoder.encode("password", "UTF-8") + "=" +
+                    URLEncoder.encode(password, "UTF-8");
+
+            URL url = new URL(link);
+            URLConnection conn = url.openConnection();
+
+            conn.setDoOutput(true);
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+
+            wr.write(data);
+            wr.flush();
+
+            BufferedReader reader = new BufferedReader(new
+                    InputStreamReader(conn.getInputStream()));
+
+            StringBuilder sb = new StringBuilder();
+            String line = "";
+
+            // Read Server Response
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+                break;
+            }
+
+
+            return sb.toString();
+
+        } catch (Exception e) {
+            return new String("Exception: " + e.getMessage());
+        }
+
+
+
 
     }
     @Override

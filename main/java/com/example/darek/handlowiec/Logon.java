@@ -18,7 +18,6 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private TextView status;
     public int idHandlowca;
     public String text;
-    private DBmySQL mySQL = new DBmySQL();
     DB db;
     GetProduktyAcivity sm = new GetProduktyAcivity();
 
@@ -45,7 +44,7 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         new SigninActivity(this,status,idHandlowca).execute(username, password);
 
         // Explicit Intent by specifying its class name
-        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
+        Intent i = new Intent(Logon.this, PodgladProduktowc.class);
 
 // Starts TargetActivity
         startActivity(i);
@@ -58,9 +57,10 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     }
 
     public void onClick(View v){
-        db.clearProdukty();
+
         Toast.makeText(this,text,Toast.LENGTH_LONG).show();
         addingProductsFromRequest(text);
+
 
 
     }

@@ -42,8 +42,7 @@ public class KlientAdapter extends ArrayAdapter<Klient> {
         Klient klient = klienci.get(position);
 
         textViewImie.setText(klient.getImie() + " " + klient.getNazwiko() + " " +klient.getNrTel());
-        //textViewNazwisko.setText(klient.getNazwiko());
-        //textViewNrTel.setText(klient.getNrTel());
+
 
         if (klient.getStatus()==0)
             imageViewStatus.setBackgroundResource(R.drawable.stopwatch);
