@@ -38,13 +38,16 @@ public class ActivityZamowienia extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
+
+        sqlLocal = new DB(this);
+        sqll = new DBmySQL();
+
         ListView chl = (ListView)findViewById(R.id.checkable_list);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         txt = getIntent().getStringExtra("tekst");
         Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
-        sqlLocal = new DB(this);
-        sqll = new DBmySQL();
+
 
         FillProdukty();
 
