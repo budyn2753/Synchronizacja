@@ -46,8 +46,8 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
         // Explicit Intent by specifying its class name
         Intent i = new Intent(Logon.this, ActivityZamowienia.class);
-
-// Starts TargetActivity
+        i.putExtra("tekst",text);
+        // Starts TargetActivity
         startActivity(i);
 
     }

@@ -27,19 +27,24 @@ public class ActivityZamowienia extends Activity {
     DB sqlLocal;
     DBmySQL sqll;
     //Logon logon = new Logon();
+    String txt;
 
 
     public long idzaznaczone;
     public String IloscProduktow;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sqlLocal = new DB(this);
-        sqll = new DBmySQL();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
         ListView chl = (ListView)findViewById(R.id.checkable_list);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        txt = getIntent().getStringExtra("tekst");
+        Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
+        sqlLocal = new DB(this);
+        sqll = new DBmySQL();
 
         FillProdukty();
 
