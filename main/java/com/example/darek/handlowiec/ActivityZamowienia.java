@@ -90,7 +90,7 @@ public class ActivityZamowienia extends Activity {
                                 selectedItems.add(new produkty(items.get(items.indexOf(new produkty((int)idzaznaczone))), 1));
 
                             TextView x = (TextView)view;
-                            x.setText(x.getText() + " Ilość: " + Integer.parseInt(IloscProduktow));
+                            x.setText(x.getText() + "\t Ilość: " + Integer.parseInt(IloscProduktow));
                         }
                     });
 
@@ -126,7 +126,14 @@ public class ActivityZamowienia extends Activity {
             items.add(new produkty(0,"Brak Połączenia z bazą", 0 ));
         else{
             String[] temp = txt.split(",");
-            items.add(new produkty(0, temp[1], Float.parseFloat(temp[2])));
+            int iter = temp.length / 5;
+            for(int i = 0; i < iter; i++){
+                if (i == 0)
+                    items.add(new produkty(i, temp[1], Float.parseFloat(temp[2])));
+                else
+                    items.add(new produkty(i, temp[(i*4) + 1], Float.parseFloat(temp[(i*4) + 2])));
+            }
+
         }
     }
 }
