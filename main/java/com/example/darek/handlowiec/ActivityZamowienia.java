@@ -122,8 +122,7 @@ public class ActivityZamowienia extends Activity {
     }
 
     public void FillProdukty(){
-        items.add(new produkty(0, 0,"kawa", 23.56f));
-        //String tmptmp = SigninActivity.this.line;
-        //Toast.makeText(this,tmptmp, Toast.LENGTH_LONG).show();
+        String[] temp = txt.split(",");
+        items.add(new produkty(0, temp[1], Float.parseFloat(temp[2])));
     }
 }
