@@ -27,7 +27,7 @@ public class ActivityZamowienia extends Activity {
     DB sqlLocal;
     DBmySQL sqll;
     //Logon logon = new Logon();
-    String txt;
+    String txt = "";
 
 
     public long idzaznaczone;
@@ -122,7 +122,11 @@ public class ActivityZamowienia extends Activity {
     }
 
     public void FillProdukty(){
-        String[] temp = txt.split(",");
-        items.add(new produkty(0, temp[1], Float.parseFloat(temp[2])));
+        if (txt == "")
+            items.add(new produkty(0,"Brak Połączenia z bazą", 0 ));
+        else{
+            String[] temp = txt.split(",");
+            items.add(new produkty(0, temp[1], Float.parseFloat(temp[2])));
+        }
     }
 }

@@ -17,7 +17,7 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
-    public String text;
+    public String text = "";
     private DBmySQL mySQL = new DBmySQL();
     DB db;
     GetProduktyAcivity sm = new GetProduktyAcivity();
