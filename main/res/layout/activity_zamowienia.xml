@@ -6,13 +6,30 @@
     android:padding="10dp"
     tools:context="com.example.darek.handlowiec.ActivityZamowienia">
 
-    <Button
-        android:id="@+id/btshow"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="showSelectedItems"
-        android:text="Pokaż co zaznaczyłem"
-        />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btshow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="showSelectedItems"
+            android:text="Pokaż co zaznaczyłem"
+
+            />
+
+        <TextView
+            android:id="@+id/txtvie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Aktualna wartość zamówienia: 0.0" />
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/checkable_list"
