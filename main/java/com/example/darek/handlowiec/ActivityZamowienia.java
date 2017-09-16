@@ -126,7 +126,7 @@ public class ActivityZamowienia extends Activity {
             items.add(new produkty(0,"Brak Połączenia z bazą", 0 ));
         else{
             String[] temp = txt.split(",");
-            int iter = temp.length / 5;
+            int iter = temp.length / 4;
             for(int i = 0; i < iter; i++){
                 if (i == 0)
                     items.add(new produkty(i, temp[1], Float.parseFloat(temp[2])));
