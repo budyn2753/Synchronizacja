@@ -17,7 +17,12 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
-    public String text;
+
+    //public String text;
+
+    public String text = "";
+   // private DBmySQL mySQL = new DBmySQL();
+
     DB db;
     GetProduktyAcivity sm = new GetProduktyAcivity();
 
@@ -45,8 +50,9 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
         // Explicit Intent by specifying its class name
         Intent i = new Intent(Logon.this, ActivityZamowienia.class);
-
-// Starts TargetActivity
+        i.putExtra("tekst",text);
+        text = "";
+        // Starts TargetActivity
         startActivity(i);
 
     }
