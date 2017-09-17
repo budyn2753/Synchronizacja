@@ -44,21 +44,31 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         new SigninActivity(this,status,idHandlowca).execute(username, password);
 
         // Explicit Intent by specifying its class name
-        Intent i = new Intent(Logon.this, PodgladProduktowc.class);
+        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
 
 // Starts TargetActivity
         startActivity(i);
 
     }
     public void addingProductsFromRequest(String text){
+        db.clearProdukty();
         String[] temp =text.split(",");
-        db.addProdukt(Integer.parseInt(temp[0]),temp[1],Double.parseDouble(temp[2]),Integer.parseInt(temp[3]));
+        int i =0;
+
+        for(int x =0;x<(temp.length/4);x++) {
+
+            //db.addProdukt(Integer.parseInt(temp[x + i]), temp[x + i], Double.parseDouble(temp[x + i]), Integer.parseInt(temp[x + i]));
+
+             Toast.makeText(this,temp[0+i]+temp[1+i]+temp[2+i]+temp[3+i],Toast.LENGTH_SHORT).show();
+            i += 3;
+        }
+
 
     }
 
     public void onClick(View v){
 
-        Toast.makeText(this,text,Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,text,Toast.LENGTH_LONG).show();
         addingProductsFromRequest(text);
 
 

@@ -117,7 +117,7 @@ public class DB extends SQLiteOpenHelper {
     public Cursor getProdukt(){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT * FROM "+ TABELA_PRODUKTOW+" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
+        String sql = "SELECT *  FROM "+ TABELA_PRODUKTOW+" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
 
         Cursor c = db.rawQuery(sql,null);
         return c;
@@ -132,13 +132,7 @@ public class DB extends SQLiteOpenHelper {
     }
 
 
-    public void syncProdukty(){
-        //db.clearProdukty();
-        //String line = mySQL.syncProdukty();
-        //temps= line.split(",");
-        //this.addProdukt(Integer.parseInt(temps[0]), temps[1], Double.parseDouble(temps[2]), Integer.parseInt(temps[3]));
 
-    }
     public ArrayList<produkty> getProducts(){
         ArrayList<produkty> products = new ArrayList<>();
         //products.add(new produkty(0,0,"Kawa",23.34f));
@@ -146,13 +140,14 @@ public class DB extends SQLiteOpenHelper {
         //products.add(new produkty(2,4,"ketchup",895.84f));
 
         String sql ="Select * FROM " +TABELA_PRODUKTOW + " Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
-
+        //items.add(new produkty(0, 0,"kawa", 23.56f));
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
-
+        int i =0;
         if(cursor.moveToFirst()){
             do{
-                products.add(new produkty((Integer.parseInt(cursor.getString(0))),(Integer.parseInt(cursor.getString(3))),cursor.getString(1),(Float.parseFloat(cursor.getString(2)))));
+                products.add(new produkty(i, (Integer.parseInt(cursor.getString(3))),cursor.getString(1),(Float.parseFloat(cursor.getString(2)))));
+                i++;
             }while(cursor.moveToNext());
         }
 
