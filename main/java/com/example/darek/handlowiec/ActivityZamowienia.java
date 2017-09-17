@@ -54,7 +54,7 @@ public class ActivityZamowienia extends Activity {
         txt = getIntent().getStringExtra("tekst");
         Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
 
-        SumaZakupow = (TextView)findViewById(R.id.txtvie);
+        SumaZakupow = (TextView)findViewById(R.id.txtview);
 
         FillProdukty();
 
@@ -152,7 +152,7 @@ public class ActivityZamowienia extends Activity {
 
 
         //trzeba coś zrobić z zużyciem pamięci !
-        if (txt == "")
+       /* if (txt == "")
             items.add(new produkty(0,"Brak Połączenia z bazą", 0 ));
         else{
             int IloscKolumnWBazie = 4;
@@ -166,7 +166,9 @@ public class ActivityZamowienia extends Activity {
                     items.add(new produkty(i,Integer.parseInt(temp[i*IloscKolumnWBazie]), temp[(i*IloscKolumnWBazie) + 1], Float.parseFloat(temp[(i*IloscKolumnWBazie) + 2])));
             }
 
-        }
+
+        }*/
+       items = sqlLocal.getProducts();
 
     }
 }

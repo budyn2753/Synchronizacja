@@ -18,7 +18,6 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private TextView status;
     public int idHandlowca;
 
-    //public String text;
 
     public String text = "";
    // private DBmySQL mySQL = new DBmySQL();
@@ -51,15 +50,15 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         // Explicit Intent by specifying its class name
         Intent i = new Intent(Logon.this, ActivityZamowienia.class);
         i.putExtra("tekst",text);
-        text = "";
+        //text = "";
         // Starts TargetActivity
         startActivity(i);
 
     }
-    public void addingProductsFromRequest(String text){
-        db.clearProdukty();
-        String[] temp =text.split(",");
-        int i =0;
+    public void addingProductsFromRequest(String text) {
+       // db.clearProdukty();
+        // String[] temp =text.split(",");
+        /*int i =0;
 
         for(int x =0;x<(temp.length/4);x++) {
 
@@ -68,14 +67,33 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
              Toast.makeText(this,temp[0+i]+temp[1+i]+temp[2+i]+temp[3+i],Toast.LENGTH_SHORT).show();
             i += 3;
         }
+*/
+        if (text == "")
+            Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
+        else {
+            int IloscKolumnWBazie = 4;
+            String[] temp = text.split(",");
+            text = "";
+            int iter = temp.length / IloscKolumnWBazie;
+            for (int i = 0; i < iter; i++) {
+                if (i == 0)
+                    db.addProdukt(Integer.parseInt(temp[0]), temp[1], Double.parseDouble(temp[2]), Integer.parseInt(temp[3]));
+                else
+                    db.addProdukt(Integer.parseInt(temp[i * IloscKolumnWBazie]), temp[(i * IloscKolumnWBazie) + 1], Double.parseDouble(temp[(i * IloscKolumnWBazie) + 2]), Integer.parseInt(temp[(i * IloscKolumnWBazie + 3)]));
+            }
 
-
+        }
     }
 
     public void onClick(View v){
-
+        db.clearProdukty();
         //Toast.makeText(this,text,Toast.LENGTH_LONG).show();
         addingProductsFromRequest(text);
+        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
+        //i.putExtra("tekst",text);
+        //text = "";
+        // Starts TargetActivity
+        startActivity(i);
 
 
 

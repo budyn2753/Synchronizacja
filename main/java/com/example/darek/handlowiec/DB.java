@@ -146,7 +146,7 @@ public class DB extends SQLiteOpenHelper {
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                products.add(new produkty(i, (Integer.parseInt(cursor.getString(3))),cursor.getString(1),(Float.parseFloat(cursor.getString(2)))));
+                products.add(new produkty(i, (Integer.parseInt(cursor.getString(4))),cursor.getString(1),(Float.parseFloat(cursor.getString(2)))));
                 i++;
             }while(cursor.moveToNext());
         }
