@@ -147,17 +147,6 @@ public class DB extends SQLiteOpenHelper {
         return true;
     }
 
-    //metoda zmieniająca status dla danego ID
-    public boolean updateKlientStatus(int id, int status){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(KOLUMNA_STATUS,status);
-        db.update(KOLUMNA_STATUS,contentValues, KOLUMNA_ID_KLIENT + "=" + id, null);
-        db.close();
-        return true;
-
-    }
     //metoda zwracająca wszystkich Klientow
     public Cursor getKlienci(){
         SQLiteDatabase db = this.getReadableDatabase();

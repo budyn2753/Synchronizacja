@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonZapisz.setOnClickListener(this);
 
         //wywołanie metody wczytania wszytkich klientów
-        loadKlienci();
+        //loadKlienci();
 
         //broadcast receiver  aktualizacja statusów
         broadcastReceiver = new BroadcastReceiver() {
@@ -75,14 +75,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onReceive(Context context, Intent intent) {
 
                 //ponowne wczytanie Klientów
-                loadKlienci();
+               // loadKlienci();
             }
         };
 
         //registering the broadcast receiver to update sync status
         registerReceiver(broadcastReceiver, new IntentFilter(DATA_SAVED_BROADCAST));
     }
-    private void loadKlienci() {
+   /* private void loadKlienci() {
         klienci.clear();
         Cursor cursor = db.getKlienci();
         if (cursor.moveToFirst()) {
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         klientAdapter = new KlientAdapter(this, R.layout.klienci,klienci);
         listViewKlienci.setAdapter(klientAdapter);
-    }
+    }*/
     private void refreshList() {
         klientAdapter.notifyDataSetChanged();
     }
@@ -126,10 +126,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (!obj.getBoolean("error")) {
                                 //jeśli sukces zapisanie klienta w sqliteze statusem sycnced
 
-                                saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_SYNCED_WITH_SERVER);
+                               // saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_SYNCED_WITH_SERVER);
                             } else {
                                 //jesli wystąpił jakis błąd zapisywanie klienta ze statusem unsynced
-                                saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_NOT_SYNCED_WITH_SERVER);
+                                //saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_NOT_SYNCED_WITH_SERVER);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
                         //kiedy wystąpi bład zapisu w sqlite ze statusem unsynced
-                        saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_NOT_SYNCED_WITH_SERVER);
+                        //saveNameToLocalStorage(imie, nazwisko,(Integer.parseInt(nrTel)), KLIENT_NOT_SYNCED_WITH_SERVER);
                     }
                 }) {
             @Override
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //zapis do bazy sqlite
-    private void saveNameToLocalStorage(String imie, String nazwisko, int nrTel,  int status) {
+   /* private void saveNameToLocalStorage(String imie, String nazwisko, int nrTel,  int status) {
         editTextImie.setText("");
         editTextNazwisko.setText("");
         editTextNrTel.setText("");
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Klient k = new Klient(imie,nazwisko, nrTel, status);
         klienci.add(k);
         refreshList();
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
