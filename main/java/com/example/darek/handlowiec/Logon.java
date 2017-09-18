@@ -47,27 +47,9 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         String password = passwordField.getText().toString();
         new SigninActivity(this,status,idHandlowca).execute(username, password);
 
-        // Explicit Intent by specifying its class name
-        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
-        i.putExtra("tekst",text);
-        //text = "";
-        // Starts TargetActivity
-        startActivity(i);
-
-    }
+            }
     public void addingProductsFromRequest(String text) {
-       // db.clearProdukty();
-        // String[] temp =text.split(",");
-        /*int i =0;
 
-        for(int x =0;x<(temp.length/4);x++) {
-
-            //db.addProdukt(Integer.parseInt(temp[x + i]), temp[x + i], Double.parseDouble(temp[x + i]), Integer.parseInt(temp[x + i]));
-
-             Toast.makeText(this,temp[0+i]+temp[1+i]+temp[2+i]+temp[3+i],Toast.LENGTH_SHORT).show();
-            i += 3;
-        }
-*/
         if (text == "")
             Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
         else {
@@ -89,12 +71,12 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         db.clearProdukty();
         //Toast.makeText(this,text,Toast.LENGTH_LONG).show();
         addingProductsFromRequest(text);
-        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
+
         //i.putExtra("tekst",text);
         //text = "";
         // Starts TargetActivity
+        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
         startActivity(i);
-
 
 
     }

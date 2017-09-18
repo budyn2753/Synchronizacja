@@ -35,7 +35,7 @@ public class PodgladProduktowc extends AppCompatActivity {
                 do {
                     produkty klient = new produkty(
                             cursor.getInt(cursor.getColumnIndex(DB.KOLUMNA_ID_Produktu)),
-                            cursor.getInt(cursor.getColumnIndex(DB.KOLUMNA_ID_BAZA)),
+                            cursor.getInt(cursor.getColumnIndex(DB.KOLUMNA_ID_BAZA_PRODUKTY)),
                             cursor.getString(cursor.getColumnIndex(DB.KOLUMNA_CENA)),
                             cursor.getFloat(cursor.getColumnIndex(DB.KOLUMNA_CENA))
                     );

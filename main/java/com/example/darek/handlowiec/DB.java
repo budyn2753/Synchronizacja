@@ -5,8 +5,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
-import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,7 +27,19 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_NAZWA ="Nazwa";
     public static final String KOLUMNA_CENA ="Cena";
     public static final String KOLUMNA_ILOSC ="Ilosc";
-    public static final String KOLUMNA_ID_BAZA ="id_baza";
+    public static final String KOLUMNA_ID_BAZA_PRODUKTY ="id_baza";
+    public static final String TABELA_ZAMOWIEN = "Zamowienie";
+    public static final String TABELA_SZCZEGOLY_ZAMOWIENIA = "SzczegolyZamowienie";
+    public static final String KOLUMNA_ID_ZAMOWIENIA = "ID";
+    public static final String KOLUMNA_ID_Z_BAZY_ZAMOWIENIA = "ID_zBazy";
+    public static final String KOLUMNA_ID_HANDLOWCA = "UserID";
+    public static final String KOLUMNA_ID_KLIENTA = "CustomerID";
+    public static final String KOLUMNA_ORDERDATE = "OrderDate";
+    public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "CustomerID";
+    public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "CustomerID";
+
+
+
     //wersja bazy
     private static final int DB_VERSION =1;
 
@@ -53,15 +63,24 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql);
         String sql2 = "CREATE TABLE "+ TABELA_PRODUKTOW + "("+KOLUMNA_ID_Produktu+" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + KOLUMNA_NAZWA + " VARCHAR, " + KOLUMNA_CENA + " VARCHAR, " + KOLUMNA_ILOSC + " INTEGER, "
-                +KOLUMNA_ID_BAZA + " INT); ";
+                + KOLUMNA_ID_BAZA_PRODUKTY + " INT); ";
         db.execSQL(sql2);
+
+        String sql3 ="CREATE TABLE "+ TABELA_ZAMOWIEN + "("+KOLUMNA_ID_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, " + KOLUMNA_ID_HANDLOWCA + " INT, " + KOLUMNA_ID_KLIENTA + " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+        db.execSQL(sql3);
+
+        String sql4 ="CREATE TABLE "+ TABELA_SZCZEGOLY_ZAMOWIENIA + "("+KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, " + KOLUMNA_ID_Z_BAZY_ZAMOWIENIA + " INT, " + KOLUMNA_ILOSC + " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+        db.execSQL(sql4);
+
 
     }
     //upgrading db
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = "DROP TABLE IF EXIST Klienci";
-        String sql1 = "DROP TABLE IF EXIST Produkty";
+        String sql = "DROP TABLE  Klienci";
+        String sql1 = "DROP TABLE  Produkty";
         db.execSQL(sql);
         db.execSQL(sql1);
         onCreate(db);
@@ -87,10 +106,41 @@ public class DB extends SQLiteOpenHelper {
         contentValues.put(KOLUMNA_NAZWA, Nazwa);
         contentValues.put(KOLUMNA_CENA, Cena);
         contentValues.put(KOLUMNA_ILOSC, Ilosc);
-        contentValues.put(KOLUMNA_ID_BAZA,id_Baza);
+        contentValues.put(KOLUMNA_ID_BAZA_PRODUKTY,id_Baza);
 
         db.insert(TABELA_PRODUKTOW, null, contentValues);
         db.close();
+        return true;
+    }
+
+    public boolean addZamowienie(int idBaza, int UserID, int CustomerID, String OrderDate){
+        SQLiteDatabase db =this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,idBaza);
+        contentValues.put(KOLUMNA_ID_HANDLOWCA,UserID);
+        contentValues.put(KOLUMNA_ID_KLIENTA, CustomerID);
+        contentValues.put(KOLUMNA_ORDERDATE,OrderDate);
+
+        db.insert(TABELA_ZAMOWIEN, null, contentValues);
+        db.close();
+        return true;
+
+    }
+
+    public boolean addSzczegolyZamowienia(int OrderID,int ProductID,int Ilosc){
+        SQLiteDatabase db =this.getReadableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(KOLUMNA_ID_ZAMOWIENIA,OrderID);
+        contentValues.put(KOLUMNA_ID_Produktu,ProductID);
+        contentValues.put(KOLUMNA_ILOS_W_ZAMOWIENIU, Ilosc);
+
+
+        db.insert(TABELA_SZCZEGOLY_ZAMOWIENIA, null, contentValues);
+        db.close();
+
+
         return true;
     }
 
@@ -135,12 +185,9 @@ public class DB extends SQLiteOpenHelper {
 
     public ArrayList<produkty> getProducts(){
         ArrayList<produkty> products = new ArrayList<>();
-        //products.add(new produkty(0,0,"Kawa",23.34f));
-        //products.add(new produkty(1,1,"Frytki",45.84f));
-        //products.add(new produkty(2,4,"ketchup",895.84f));
 
         String sql ="Select * FROM " +TABELA_PRODUKTOW + " Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
-        //items.add(new produkty(0, 0,"kawa", 23.56f));
+
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
