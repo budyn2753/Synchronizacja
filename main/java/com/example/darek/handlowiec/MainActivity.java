@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (cursor.moveToFirst()) {
             do {
                 Klient klient = new Klient(
-                        cursor.getString(cursor.getColumnIndex(DB.KOLUMNA_IMIE)),
+                        cursor.getString(cursor.getColumnIndex(DB.KOLUMNA_NAZWA_KLIENTA)),
                         cursor.getString(cursor.getColumnIndex(DB.KOLUMNA_NAZWISKO)),
                         cursor.getInt(cursor.getColumnIndex(DB.KOLUMNA_NR)),
                         cursor.getInt(cursor.getColumnIndex(DB.KOLUMNA_STATUS))

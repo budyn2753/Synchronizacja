@@ -41,7 +41,7 @@ public class KlientAdapter extends ArrayAdapter<Klient> {
 
         Klient klient = klienci.get(position);
 
-        textViewImie.setText(klient.getImie() + " " + klient.getNazwiko() + " " +klient.getNrTel());
+        textViewImie.setText(klient.getNazwa() + " " + klient.getNazwiko() + " " +klient.getNrTel());
 
 
         if (klient.getStatus()==0)

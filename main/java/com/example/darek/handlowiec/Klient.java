@@ -5,12 +5,20 @@ package com.example.darek.handlowiec;
  */
 
 public class Klient {
-    public int getStatus() {
-        return status;
+    private int ID;
+    private String Nazwa;
+    private int ID_baza;
+    private int nrTel;
+
+    public int getID(){
+        return ID;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+
+
+
+    public void setID(int id){
+        this.ID =id;
     }
 
     public int getNrTel() {
@@ -22,34 +30,32 @@ public class Klient {
         this.nrTel = nrTel;
     }
 
-    public String getNazwiko() {
 
-        return nazwiko;
+
+    public String getNazwa() {
+
+        return Nazwa;
     }
 
-    public void setNazwiko(String nazwiko) {
-        this.nazwiko = nazwiko;
+    public void setNazwa(String nazwa) {
+        this.Nazwa = nazwa;
     }
 
-    public String getImie() {
 
-        return imie;
-    }
 
-    public void setImie(String imie) {
-        this.imie = imie;
-    }
+    public Klient(int id_k, String Nazwa,  int nrTel){
+        this.ID = id_k;
+        this.Nazwa = Nazwa;
 
-    private String  imie;
-    private String nazwiko;
-    private int nrTel;
-    private int status;
-
-    public Klient(String imie, String nazwisko, int nrTel, int status){
-        this.imie =imie;
-        this.nazwiko = nazwisko;
         this.nrTel = nrTel;
-        this.status =status;
+
     }
 
+    public int getID_baza() {
+        return ID_baza;
+    }
+
+    public void setID_baza(int ID_baza) {
+        this.ID_baza = ID_baza;
+    }
 }
