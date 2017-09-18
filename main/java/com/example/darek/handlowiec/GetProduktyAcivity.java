@@ -31,7 +31,7 @@ public class GetProduktyAcivity extends AsyncTask<Object,Object,String> {
 
         try {
 
-            String link = "http://192.168.101.4:8080/sync/getProdukty.php";
+            String link = "http://192.168.0.99/getProdukty.php";
             URL url = new URL(link);
             URLConnection conn = url.openConnection();
 
