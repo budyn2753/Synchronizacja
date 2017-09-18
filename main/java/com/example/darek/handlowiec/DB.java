@@ -195,7 +195,7 @@ public class DB extends SQLiteOpenHelper {
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                client.add(new Klient(i, cursor.getString(1),(Integer.parseInt(cursor.getString(2)));
+                client.add(new Klient(i, cursor.getString(1),(Integer.parseInt(cursor.getString(2)))));
                 i++;
             }while(cursor.moveToNext());
         }
