@@ -46,6 +46,13 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
         new SigninActivity(this,status,idHandlowca).execute(username, password);
+        try {
+            db.addKlient("Biernacki", 727677583);
+            db.addKlient("ZMB", 605367005);
+        }catch (Exception e){
+            Toast.makeText(this, e.toString(),Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(this, db.getClient().get(0).getNazwa(),Toast.LENGTH_SHORT).show();
     }
 
 
@@ -69,7 +76,10 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     }
 
     public void onClick(View v){
-        db.clearProdukty();
+
+        //db.addKlient("Biernacki", 727677583,1);
+        //db.addKlient("ZMB", 605367005,2);
+        //db.clearProdukty();
         //Toast.makeText(this,text,Toast.LENGTH_LONG).show();
         addingProductsFromRequest(text);
 

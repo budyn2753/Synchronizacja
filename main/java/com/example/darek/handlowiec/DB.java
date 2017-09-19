@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -20,11 +21,9 @@ public class DB extends SQLiteOpenHelper {
     public static final String TABELA_PRODUKTOW ="Produkty";
     public static final String KOLUMNA_ID_KLIENT ="id";
     public static final String KOLUMNA_NAZWA_KLIENTA ="Nazwa";
-    public static final String KOLUMNA_NAZWISKO ="Nazwisko";
     public static final String KOLUMNA_NR ="nrtel";
     public static final String KOLUMNA_STATUS ="STATUS";
     public static final String KOLUMNA_ID_Produktu ="id";
-    public static final String KOLUMNA_NAZWA ="Nazwa";
     public static final String KOLUMNA_CENA ="Cena";
     public static final String KOLUMNA_ILOSC ="Ilosc";
     public static final String KOLUMNA_ID_BAZA_PRODUKTY ="id_baza";
@@ -34,14 +33,15 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ID_Z_BAZY_ZAMOWIENIA = "ID_zBazy";
     public static final String KOLUMNA_ID_HANDLOWCA = "UserID";
     public static final String KOLUMNA_ID_KLIENTA = "CustomerID";
+    public static final String KOLUMNA_ID_KLIENTA_BAZY= "CustomerID_zBazy";
     public static final String KOLUMNA_ORDERDATE = "OrderDate";
     public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "CustomerID";
-    public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "CustomerID";
+    public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "OrderQuantity";
 
 
 
     //wersja bazy
-    private static final int DB_VERSION =3;
+    private static final int DB_VERSION =4;
 
 
 
@@ -56,7 +56,7 @@ public class DB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
        // DariuszDariusz
         String sql = "CREATE TABLE "+ TABELA_KLIENTOW + "("+KOLUMNA_ID_KLIENT+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + KOLUMNA_NAZWA_KLIENTA + " VARCHAR, "  + KOLUMNA_NR + " INTEGER);";
+                + KOLUMNA_NAZWA_KLIENTA + " VARCHAR, "  + KOLUMNA_NR + " INTEGER, " + KOLUMNA_ID_KLIENTA_BAZY + "INTEGER);";
 
 
         db.execSQL(sql);
@@ -89,18 +89,22 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
     //Tworzenie Kilenta z podaniem statusu synchronizacji
-    public boolean addKlient(String imie, String nazwisko, int nrTel, int status ){
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+    public boolean addKlient(String nazwa, int nrTel){
+        try {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
 
-        contentValues.put(KOLUMNA_NAZWA_KLIENTA, imie);
+            contentValues.put(KOLUMNA_NAZWA_KLIENTA, nazwa);
+            contentValues.put(KOLUMNA_NR, nrTel);
+            //contentValues.put(KOLUMNA_ID_KLIENTA_BAZY, id_zBazy);
 
-        contentValues.put(KOLUMNA_NR, nrTel);
 
-
-        db.insert(TABELA_KLIENTOW, null, contentValues);
-        db.close();
-        return true;
+            db.insert(TABELA_KLIENTOW, null, contentValues);
+            db.close();
+            return true;
+        }catch (Exception e){
+            throw e;
+        }
     }
     public boolean addProdukt(int id_Baza, String Nazwa, Double Cena, int Ilosc ){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -148,22 +152,15 @@ public class DB extends SQLiteOpenHelper {
     }
 
     //metoda zwracająca wszystkich Klientow
-    public Cursor getKlienci(){
+/*    public Cursor getKlienci(){
         SQLiteDatabase db = this.getReadableDatabase();
 
         String sql = "SELECT * FROM "+ TABELA_KLIENTOW +" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
 
         Cursor c = db.rawQuery(sql,null);
         return c;
-    }
-    public Cursor getProdukt(){
-        SQLiteDatabase db = this.getReadableDatabase();
+    }*/
 
-        String sql = "SELECT *  FROM "+ TABELA_PRODUKTOW+" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
-
-        Cursor c = db.rawQuery(sql,null);
-        return c;
-    }
 
     public void clearProdukty(){
         String sql= "Delete FROM " +TABELA_PRODUKTOW+ ";";
@@ -175,16 +172,16 @@ public class DB extends SQLiteOpenHelper {
 
 
     public ArrayList<Klient> getClient(){
-        ArrayList<Klient> client = new ArrayList<>();
+        ArrayList<Klient> client = new ArrayList<Klient>();
 
-        String sql ="Select * FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENT+ " ASC;";
+        String sql ="Select Nazwa, nrtel FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENT+ " ASC;";
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                client.add(new Klient(i, cursor.getString(1),(Integer.parseInt(cursor.getString(2)))));
+                client.add(new Klient(i, cursor.getString(0),(Integer.parseInt(cursor.getString(1)))));
                 i++;
             }while(cursor.moveToNext());
         }
