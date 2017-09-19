@@ -50,18 +50,20 @@ public class KlienciActivity extends AppCompatActivity {
                     Klient tmp = klienci.get(klienci.indexOf(new Klient((int)id)));
                     //Toast.makeText(getParent(), "Zaznaczyłeś\n" + tmp.getNazwa(), Toast.LENGTH_LONG).show();
                     Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
-                i.putExtra("IDKlienta", tmp.getID_baza());
+                    i.putExtra("IDKlienta", tmp.getID_baza());
                     startActivity(i);
             }
         });
     }
 
     private void FillKlienci(){
+        klienci = db.getClient();
+        /*
         klienci.add(new Klient(0, 11, "Dariusz1",  723410501));
         klienci.add(new Klient(1, 22, "Dariusz11",  723410501));
         klienci.add(new Klient(2, 33, "Dariusz111",  723410501));
         klienci.add(new Klient(3, 44, "11111",  723410501));
-
+        */
     }
 
 }
