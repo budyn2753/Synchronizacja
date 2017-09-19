@@ -25,6 +25,7 @@ public class ActivityZamowienia extends Activity {
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
     DB sqlLocal;
+    int IDKlienta;
 
     //DBmySQL sqll;
     //Logon logon = new Logon();
@@ -50,6 +51,8 @@ public class ActivityZamowienia extends Activity {
 
         ListView chl = (ListView)findViewById(R.id.checkable_list);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        IDKlienta = getIntent().getIntExtra("IDKlienta", 0);
 
         txt = getIntent().getStringExtra("tekst");
         Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
@@ -141,7 +144,7 @@ public class ActivityZamowienia extends Activity {
         for(produkty item:selectedItems){
             items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
         }
-        Toast.makeText(this,"Zaznaczyłeś\n" + items, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta, Toast.LENGTH_LONG).show();
     }
 
     public void FillProdukty(){
