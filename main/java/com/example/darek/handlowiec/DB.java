@@ -41,7 +41,7 @@ public class DB extends SQLiteOpenHelper {
 
 
     //wersja bazy
-    private static final int DB_VERSION =2;
+    private static final int DB_VERSION =3;
 
 
 
@@ -70,7 +70,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql3);
 
         String sql4 ="CREATE TABLE "+ TABELA_SZCZEGOLY_ZAMOWIENIA + "("+KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, " + KOLUMNA_ID_Z_BAZY_ZAMOWIENIA + " INT, " + KOLUMNA_ILOSC + " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "  + KOLUMNA_ILOSC + " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
         db.execSQL(sql4);
 
 
