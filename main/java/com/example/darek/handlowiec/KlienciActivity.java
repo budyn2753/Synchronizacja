@@ -36,12 +36,14 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
         setContentView(R.layout.activity_klienci);
 
         db = new DB(this);
+
         gp.delegate = this;
         gp.execute();
 
+
         ListView chl = (ListView)findViewById(R.id.checkable_listK);
         chl.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
+        
         FillKlienci();
 
         for(Klient x: klienci){
