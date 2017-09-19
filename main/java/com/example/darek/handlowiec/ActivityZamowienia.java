@@ -18,6 +18,8 @@ import android.view.WindowManager;
 
 public class ActivityZamowienia extends Activity {
 
+
+
     //arraylist z zaznaczonymi rzeczami z niej zapisac zamówienie do bazy
     ArrayList<produkty> selectedItems = new ArrayList<produkty>();
     //arrayList z oferowanymi produktami
@@ -26,6 +28,7 @@ public class ActivityZamowienia extends Activity {
     ArrayList<String> displayed = new ArrayList<String>();
     DB db;
     int IDKlienta;
+    int UserID;
 
     //DBmySQL sqll;
     //Logon logon = new Logon();
@@ -35,6 +38,7 @@ public class ActivityZamowienia extends Activity {
 
     public long idzaznaczone;
     public String IloscProduktow;
+    public String logedUser;
 
 
     @Override
@@ -42,7 +46,7 @@ public class ActivityZamowienia extends Activity {
 
         db = new DB(this);
 
-
+        logedUser = getIntent().getStringExtra("logedUser");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
 
@@ -144,34 +148,18 @@ public class ActivityZamowienia extends Activity {
         for(produkty item:selectedItems){
             items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
         }
-        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta, Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
+        db.addZamowienie(0,Integer.parseInt(logedUser),IDKlienta);
+        String x = db.getLastOrderID();
+        String y = Integer.toString(IDKlienta);
+        new AddZamowienie(this).execute(logedUser,y,x);
+
     }
 
+
     public void FillProdukty(){
-
+        //db.clearProdukty();
         items = db.getProducts();
-        //String tmptmp = SigninActivity.this.line;
-        //Toast.makeText(this,tmptmp, Toast.LENGTH_LONG).show();
-
-
-        //trzeba coś zrobić z zużyciem pamięci !
-       /* if (txt == "")
-            items.add(new produkty(0,"Brak Połączenia z bazą", 0 ));
-        else{
-            int IloscKolumnWBazie = 4;
-            String[] temp = txt.split(",");
-            txt = "";
-            int iter = temp.length / IloscKolumnWBazie;
-            for(int i = 0; i < iter; i++){
-                if (i == 0)
-                    items.add(new produkty(i,Integer.parseInt(temp[0]), temp[1], Float.parseFloat(temp[2])));
-                else
-                    items.add(new produkty(i,Integer.parseInt(temp[i*IloscKolumnWBazie]), temp[(i*IloscKolumnWBazie) + 1], Float.parseFloat(temp[(i*IloscKolumnWBazie) + 2])));
-            }
-
-
-        }*/
-       items = db.getProducts();
 
     }
 

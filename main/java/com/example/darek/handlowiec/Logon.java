@@ -17,7 +17,7 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
-
+    String logedUser;
 
     public String text = "";
    // private DBmySQL mySQL = new DBmySQL();
@@ -51,6 +51,8 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
     public void addingClientFromRequest(String text) {
 
+        db.clearKlienci();
+
         if (text == "")
             Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
         else {
@@ -71,9 +73,15 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
 
     public void onClick(View v){
+        String txt = status.getText().toString();
+
+        String [] tmp = txt.split(" ");
+
+        logedUser = tmp[0];
 
         addingClientFromRequest(text);
         Intent i = new Intent(Logon.this, KlienciActivity.class);
+        i.putExtra("logedUser", logedUser);
         startActivity(i);
 
 

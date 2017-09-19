@@ -38,7 +38,7 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "CustomerID";
     public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "OrderQuantity";
 
-
+    private String LastID ="";
 
     //wersja bazy
     private static final int DB_VERSION =7;
@@ -120,14 +120,14 @@ public class DB extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean addZamowienie(int idBaza, int UserID, int CustomerID, String OrderDate){
+    public boolean addZamowienie(int idBaza, int UserID, int CustomerID){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,idBaza);
         contentValues.put(KOLUMNA_ID_HANDLOWCA,UserID);
         contentValues.put(KOLUMNA_ID_KLIENTA, CustomerID);
-        contentValues.put(KOLUMNA_ORDERDATE,OrderDate);
+
 
         db.insert(TABELA_ZAMOWIEN, null, contentValues);
         db.close();
@@ -135,6 +135,15 @@ public class DB extends SQLiteOpenHelper {
 
     }
 
+    public boolean updateZamowienia(String id, String value){
+        SQLiteDatabase db =this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,value);
+
+        db.update(TABELA_ZAMOWIEN, cv,KOLUMNA_ID_ZAMOWIENIA+ " = "+id, null);
+
+        return true;
+    }
     public boolean addSzczegolyZamowienia(int OrderID,int ProductID,int Ilosc){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -169,6 +178,29 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql);
 
     }
+    public void clearKlienci(){
+        String sql= "Delete FROM " +TABELA_KLIENTOW+ ";";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
+
+    }
+    public String getLastOrderID(){
+
+
+        String sql ="SELECT ID FROM " +TABELA_ZAMOWIEN+" ORDER BY id DESC LIMIT 1;";
+
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                LastID = cursor.getString(0);
+            }while(cursor.moveToNext());
+        }
+        return LastID;
+    }
+
 
 
     public ArrayList<Klient> getClient(){

@@ -29,14 +29,14 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
     String text = "";
 
     GetProduktyAcivity gp = new GetProduktyAcivity();
-
+    String logedUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klienci);
 
         db = new DB(this);
-
+        logedUser = getIntent().getStringExtra("logedUser");
         gp.delegate = this;
         gp.execute();
 
@@ -61,12 +61,14 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
                     //Toast.makeText(getParent(), "Zaznaczyłeś\n" + tmp.getNazwa(), Toast.LENGTH_LONG).show();
                     Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
                     i.putExtra("IDKlienta", tmp.getID_baza());
+                    i.putExtra("logedUser", logedUser);
                     startActivity(i);
             }
         });
     }
 
     private void FillKlienci(){
+
         klienci = db.getClient();
         /*
         klienci.add(new Klient(0, 11, "Dariusz1",  723410501));
@@ -76,7 +78,7 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
         */
     }
     public void addingProductsFromRequest(String text) {
-
+        db.clearProdukty();
         if (text == "")
             Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
         else {
