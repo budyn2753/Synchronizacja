@@ -46,8 +46,9 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
         new SigninActivity(this,status,idHandlowca).execute(username, password);
+    }
 
-            }
+
     public void addingProductsFromRequest(String text) {
 
         if (text == "")
@@ -75,7 +76,7 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         //i.putExtra("tekst",text);
         //text = "";
         // Starts TargetActivity
-        Intent i = new Intent(Logon.this, ActivityZamowienia.class);
+        Intent i = new Intent(Logon.this, KlienciActivity.class);
         startActivity(i);
 
 

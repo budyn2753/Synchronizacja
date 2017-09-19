@@ -50,6 +50,9 @@ public class Klient {
         this.nrTel = nrTel;
 
     }
+    public Klient(int id_k){
+        this.ID = id_k;
+    }
 
     public int getID_baza() {
         return ID_baza;
@@ -57,5 +60,18 @@ public class Klient {
 
     public void setID_baza(int ID_baza) {
         this.ID_baza = ID_baza;
+    }
+
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean sameSame = false;
+
+        if (object != null && object instanceof Klient)
+        {
+            sameSame = this.getID() == ((Klient) object).getID();
+        }
+
+        return sameSame;
     }
 }
