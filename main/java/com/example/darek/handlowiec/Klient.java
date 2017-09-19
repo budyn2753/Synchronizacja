@@ -47,8 +47,15 @@ public class Klient {
         this.ID = id_k;
         this.Nazwa = Nazwa;
         this.nrTel = nrTel;
-
     }
+
+    public Klient(int id_k, int idbaza_k, String Nazwa,  int nrTel){
+        this.ID = id_k;
+        this.Nazwa = Nazwa;
+        this.nrTel = nrTel;
+        this.ID_baza = idbaza_k;
+    }
+
     public Klient(int id_k){
         this.ID = id_k;
     }
