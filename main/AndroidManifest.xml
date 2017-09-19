@@ -24,7 +24,6 @@
             android:name=".ActivityZamowienia"
             android:label="@string/title_activity_zamowienia"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PodgladProduktowc" />
         <activity
             android:name=".KlienciActivity"
             android:label="@string/title_activity_klienci"

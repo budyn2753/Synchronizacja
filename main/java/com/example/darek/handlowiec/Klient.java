@@ -46,7 +46,6 @@ public class Klient {
     public Klient(int id_k, String Nazwa,  int nrTel){
         this.ID = id_k;
         this.Nazwa = Nazwa;
-
         this.nrTel = nrTel;
 
     }
