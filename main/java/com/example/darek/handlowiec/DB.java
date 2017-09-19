@@ -41,7 +41,7 @@ public class DB extends SQLiteOpenHelper {
 
 
     //wersja bazy
-    private static final int DB_VERSION =4;
+    private static final int DB_VERSION =7;
 
 
 
@@ -56,7 +56,7 @@ public class DB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
        // DariuszDariusz
         String sql = "CREATE TABLE "+ TABELA_KLIENTOW + "("+KOLUMNA_ID_KLIENT+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + KOLUMNA_NAZWA_KLIENTA + " VARCHAR, "  + KOLUMNA_NR + " INTEGER, " + KOLUMNA_ID_KLIENTA_BAZY + "INTEGER);";
+                + KOLUMNA_NAZWA_KLIENTA + " VARCHAR, "  + KOLUMNA_NR + " INTEGER, " + KOLUMNA_ID_KLIENTA_BAZY + " INTEGER);";
 
 
         db.execSQL(sql);
@@ -89,14 +89,14 @@ public class DB extends SQLiteOpenHelper {
         onCreate(db);
     }
     //Tworzenie Kilenta z podaniem statusu synchronizacji
-    public boolean addKlient(String nazwa, int nrTel){
+    public boolean addKlient(String nazwa, int nrTel, int id_zBazy){
         try {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues contentValues = new ContentValues();
 
             contentValues.put(KOLUMNA_NAZWA_KLIENTA, nazwa);
             contentValues.put(KOLUMNA_NR, nrTel);
-            //contentValues.put(KOLUMNA_ID_KLIENTA_BAZY, id_zBazy);
+            contentValues.put(KOLUMNA_ID_KLIENTA_BAZY, id_zBazy);
 
 
             db.insert(TABELA_KLIENTOW, null, contentValues);
@@ -174,14 +174,14 @@ public class DB extends SQLiteOpenHelper {
     public ArrayList<Klient> getClient(){
         ArrayList<Klient> client = new ArrayList<Klient>();
 
-        String sql ="Select Nazwa, nrtel FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENT+ " ASC;";
+        String sql ="Select Nazwa, nrtel, CustomerID_zBazy FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENT+ " ASC;";
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                client.add(new Klient(i, cursor.getString(0),(Integer.parseInt(cursor.getString(1)))));
+                client.add(new Klient(i, cursor.getString(0),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2)))));
                 i++;
             }while(cursor.moveToNext());
         }

@@ -24,7 +24,7 @@ public class ActivityZamowienia extends Activity {
     ArrayList<produkty> items = new ArrayList<produkty>();
     String selectedItem;
     ArrayList<String> displayed = new ArrayList<String>();
-    DB sqlLocal;
+    DB db;
     int IDKlienta;
 
     //DBmySQL sqll;
@@ -40,13 +40,13 @@ public class ActivityZamowienia extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        sqlLocal = new DB(this);
+        db = new DB(this);
 
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
 
-        sqlLocal = new DB(this);
+
         //sqll = new DBmySQL();
 
         ListView chl = (ListView)findViewById(R.id.checkable_list);
@@ -149,7 +149,7 @@ public class ActivityZamowienia extends Activity {
 
     public void FillProdukty(){
 
-        items = sqlLocal.getProducts();
+        items = db.getProducts();
         //String tmptmp = SigninActivity.this.line;
         //Toast.makeText(this,tmptmp, Toast.LENGTH_LONG).show();
 
@@ -171,7 +171,10 @@ public class ActivityZamowienia extends Activity {
 
 
         }*/
-       items = sqlLocal.getProducts();
+       items = db.getProducts();
 
     }
+
+
+
 }

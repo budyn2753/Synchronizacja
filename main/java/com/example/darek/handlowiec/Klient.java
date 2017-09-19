@@ -49,7 +49,7 @@ public class Klient {
         this.nrTel = nrTel;
     }
 
-    public Klient(int id_k, int idbaza_k, String Nazwa,  int nrTel){
+    public Klient(int id_k,  String Nazwa,  int nrTel, int idbaza_k){
         this.ID = id_k;
         this.Nazwa = Nazwa;
         this.nrTel = nrTel;
