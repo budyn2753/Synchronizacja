@@ -35,7 +35,7 @@ public class KlienciActivity extends AppCompatActivity {
 
         ListView chl = (ListView)findViewById(R.id.checkable_listK);
         chl.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        
+
         FillKlienci();
 
         for(Klient x: klienci){
