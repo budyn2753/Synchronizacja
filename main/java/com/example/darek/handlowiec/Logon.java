@@ -17,18 +17,18 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
     private EditText usernameField, passwordField;
     private TextView status;
     public int idHandlowca;
-
+    String logedUser;
 
     public String text = "";
    // private DBmySQL mySQL = new DBmySQL();
 
     DB db;
-    GetProduktyAcivity sm = new GetProduktyAcivity();
+    GetKlienci gk = new GetKlienci();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sm.delegate = this;
+        gk.delegate = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logon);
         db = new DB(this);
@@ -37,56 +37,51 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         usernameField = (EditText)findViewById(R.id.loginField);
         passwordField = (EditText)findViewById(R.id.passwordField);
         status =(TextView)findViewById(R.id.textViewPowitanie);
-        sm.execute();
+        gk.execute();
 
     }
 
 
-    public void login (View view){
+    public void login (View view) {
         String username = usernameField.getText().toString();
         String password = passwordField.getText().toString();
-        new SigninActivity(this,status,idHandlowca).execute(username, password);
-        try {
-            db.addKlient("Biernacki", 727677583);
-            db.addKlient("ZMB", 605367005);
-        }catch (Exception e){
-            Toast.makeText(this, e.toString(),Toast.LENGTH_SHORT).show();
-        }
-        Toast.makeText(this, db.getClient().get(0).getNazwa(),Toast.LENGTH_SHORT).show();
+        new SigninActivity(this, status, idHandlowca).execute(username, password);
     }
 
 
-    public void addingProductsFromRequest(String text) {
+    public void addingClientFromRequest(String text) {
+
+        db.clearKlienci();
 
         if (text == "")
             Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
         else {
-            int IloscKolumnWBazie = 4;
+            int IloscKolumnWBazie = 3;
             String[] temp = text.split(",");
             text = "";
             int iter = temp.length / IloscKolumnWBazie;
             for (int i = 0; i < iter; i++) {
                 if (i == 0)
-                    db.addProdukt(Integer.parseInt(temp[0]), temp[1], Double.parseDouble(temp[2]), Integer.parseInt(temp[3]));
+                    db.addKlient(temp[0], Integer.parseInt(temp[1]), Integer.parseInt(temp[2]));
                 else
-                    db.addProdukt(Integer.parseInt(temp[i * IloscKolumnWBazie]), temp[(i * IloscKolumnWBazie) + 1], Double.parseDouble(temp[(i * IloscKolumnWBazie) + 2]), Integer.parseInt(temp[(i * IloscKolumnWBazie + 3)]));
+
+                    db.addKlient(temp[i * IloscKolumnWBazie], Integer.parseInt(temp[(i * IloscKolumnWBazie) + 1]), Integer.parseInt(temp[(i * IloscKolumnWBazie) + 2]));
             }
 
         }
     }
 
+
     public void onClick(View v){
+        String txt = status.getText().toString();
 
-        //db.addKlient("Biernacki", 727677583,1);
-        //db.addKlient("ZMB", 605367005,2);
-        //db.clearProdukty();
-        //Toast.makeText(this,text,Toast.LENGTH_LONG).show();
-        addingProductsFromRequest(text);
+        String [] tmp = txt.split(" ");
 
-        //i.putExtra("tekst",text);
-        //text = "";
-        // Starts TargetActivity
+        logedUser = tmp[0];
+
+        addingClientFromRequest(text);
         Intent i = new Intent(Logon.this, KlienciActivity.class);
+        i.putExtra("logedUser", logedUser);
         startActivity(i);
 
 
