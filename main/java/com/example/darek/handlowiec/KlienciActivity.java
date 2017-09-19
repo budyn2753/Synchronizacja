@@ -31,9 +31,11 @@ public class KlienciActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_klienci);
 
+        db = new DB(this);
+
         ListView chl = (ListView)findViewById(R.id.checkable_listK);
         chl.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
+        
         FillKlienci();
 
         for(Klient x: klienci){
