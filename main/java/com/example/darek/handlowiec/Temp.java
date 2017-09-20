@@ -23,8 +23,8 @@ public class Temp extends AppCompatActivity implements AsyncResponse {
     public void onClick2(View v){
         String id_Zamowienia="";
         String[] x = db.getLastUnsyncID();
-
-        Toast.makeText(this,x[1]+x[0]+logedUser,Toast.LENGTH_SHORT).show();
+        int licznik = Integer.parseInt(db.getUnsycedCountOfSzZamID(x[0]));
+        Toast.makeText(this,x[1]+x[0]+db.getUnsycedCountOfSzZamID(x[0]),Toast.LENGTH_SHORT).show();
 
         new AddZamowienie(this).execute(logedUser, x[1],x[0]);
         getIDz.delegate = this;
@@ -37,6 +37,13 @@ public class Temp extends AppCompatActivity implements AsyncResponse {
             e.printStackTrace();
         }
         db.updateZamowienia(x[0], id_Zamowienia);
+
+
+        for(int i=0;i<licznik;i++ ){
+            String[] y = db.getLastUnsyncIloscAndID(x[0]);
+            new addSzczegolyZamowienia(this).execute(id_Zamowienia,y[0], y[1]);
+            db.updateSzczeglyZamowienia(x[0],id_Zamowienia);
+        }
 
     }
 

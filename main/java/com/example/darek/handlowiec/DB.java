@@ -142,6 +142,15 @@ public class DB extends SQLiteOpenHelper {
 
         return true;
     }
+    public boolean updateSzczeglyZamowienia(String id, String value){
+        SQLiteDatabase db =this.getReadableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,value);
+
+        db.update(TABELA_SZCZEGOLY_ZAMOWIENIA, cv,KOLUMNA_ID_ZAMOWIENIA+ " = "+id, null);
+
+        return true;
+    }
     public boolean addSzczegolyZamowienia(int OrderID,int ProductID,int Ilosc){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -197,6 +206,34 @@ public class DB extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return Oo;
+    }
+    public String[] getLastUnsyncIloscAndID(String id){
+        String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+" ORDER BY id DESC LIMIT 1;";
+        Oo = new String[2];
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                Oo[0] = cursor.getString(0);
+                Oo[1] = cursor.getString(1);
+            }while(cursor.moveToNext());
+        }
+        return Oo;
+    }
+    public String getUnsycedCountOfSzZamID(String id){
+        String sql ="SELECT COUNT (ID) FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+ ";";
+        String licznik = "";
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                licznik = cursor.getString(0);
+
+            }while(cursor.moveToNext());
+        }
+        return licznik;
     }
     public ArrayList<Zamowienia> getZamowienia(){
         ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();
