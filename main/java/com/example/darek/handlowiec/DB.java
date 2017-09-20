@@ -22,7 +22,6 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ID_KLIENT ="id";
     public static final String KOLUMNA_NAZWA_KLIENTA ="Nazwa";
     public static final String KOLUMNA_NR ="nrtel";
-    public static final String KOLUMNA_STATUS ="STATUS";
     public static final String KOLUMNA_ID_Produktu ="id";
     public static final String KOLUMNA_CENA ="Cena";
     public static final String KOLUMNA_ILOSC ="Ilosc";
@@ -36,12 +35,13 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ID_KLIENTA_BAZY= "CustomerID_zBazy";
     public static final String KOLUMNA_ORDERDATE = "OrderDate";
     public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "ID";
-    public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "OrderQuantity";
+    public static final String KOLUMNA_ID_PRODUKTU_SZ ="ProductID";
+
 
     private String LastID ="";
 
     //wersja bazy
-    private static final int DB_VERSION =9;
+    private static final int DB_VERSION =10;
 
 
 
@@ -70,7 +70,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql3);
 
         String sql4 ="CREATE TABLE "+ TABELA_SZCZEGOLY_ZAMOWIENIA + "("+KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "+KOLUMNA_ID_PRODUKTU_SZ+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
         db.execSQL(sql4);
 
 
@@ -146,7 +146,7 @@ public class DB extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,OrderID);
-        contentValues.put(KOLUMNA_ID_Produktu,ProductID);
+        contentValues.put(KOLUMNA_ID_PRODUKTU_SZ,ProductID);
         contentValues.put(KOLUMNA_ILOSC, Ilosc);
 
 
@@ -201,9 +201,23 @@ public class DB extends SQLiteOpenHelper {
         }
         return orders;
     }
+    public ArrayList<Zamowienia>getNotSynchronizedOrders(){
+        ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();
 
+        String sql ="Select ID_zBazy, UserID, CustomerID FROM " +TABELA_ZAMOWIEN + " WHERE ID_zBazy = 0 Order by "+ KOLUMNA_ID_ZAMOWIENIA+ " ASC;";
 
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2)))));
+                i++;
+            }while(cursor.moveToNext());
+        }
+        return orders;
 
+    }
     public ArrayList<Klient> getClient(){
         ArrayList<Klient> client = new ArrayList<Klient>();
 
@@ -220,7 +234,6 @@ public class DB extends SQLiteOpenHelper {
         }
         return client;
     }
-
     public ArrayList<produkty> getProducts(){
         ArrayList<produkty> products = new ArrayList<>();
 

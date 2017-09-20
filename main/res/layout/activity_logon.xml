@@ -93,19 +93,37 @@
         android:layout_marginEnd="18dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="-121dp" />
 
     <Button
         android:id="@+id/buttonDalej"
         android:layout_width="344dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="63dp"
+        android:layout_marginBottom="124dp"
         android:onClick="onClick"
         android:text="Dalej"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintBottom_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="41dp"
+        android:layout_marginTop="8dp"
+        android:onClick="pokazNS"
+        android:text="Pokaż nie synchronizowane"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonDalej"
+        app:layout_constraintVertical_bias="0.296"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1" />

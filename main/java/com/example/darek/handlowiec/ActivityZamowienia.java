@@ -156,6 +156,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
         if(Integer.parseInt(logedUser)==0) {
             db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
         }else {
+            db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
             String x = db.getLastOrderID();
             String y = Integer.toString(IDKlienta);
             new AddZamowienie(this).execute(logedUser, y, x);

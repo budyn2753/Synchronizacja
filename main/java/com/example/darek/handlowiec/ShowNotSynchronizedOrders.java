@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class ShowMyOrders extends AppCompatActivity {
+public class ShowNotSynchronizedOrders extends AppCompatActivity {
 
     ArrayList<Zamowienia> Orders = new ArrayList<Zamowienia>();
     ArrayList<String> displayedk = new ArrayList<String>();
@@ -26,11 +26,11 @@ public class ShowMyOrders extends AppCompatActivity {
         for(Zamowienia x: Orders){
             displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerID() );
         }
-      ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
-      chl.setAdapter(mHistory);
+        ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
+        chl.setAdapter(mHistory);
     }
 
     private void FillZamowienia(){
-       Orders = db.getZamowienia();
+        Orders = db.getNotSynchronizedOrders();
     }
 }
