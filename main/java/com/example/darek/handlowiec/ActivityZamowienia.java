@@ -174,6 +174,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
             idP= Integer.toString(item.getId_baza()).trim();
             i = Integer.toString(item.getIlosc()).trim();
             new addSzczegolyZamowienia(this).execute(id_Zamowienia,idP,i);
+            db.addSzczegolyZamowienia(Integer.parseInt(id_Zamowienia),item.getId_baza(),item.getIlosc());
 
             //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
         }

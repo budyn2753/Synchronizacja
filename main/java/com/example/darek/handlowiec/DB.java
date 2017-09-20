@@ -35,13 +35,13 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ID_KLIENTA = "CustomerID";
     public static final String KOLUMNA_ID_KLIENTA_BAZY= "CustomerID_zBazy";
     public static final String KOLUMNA_ORDERDATE = "OrderDate";
-    public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "CustomerID";
+    public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "ID";
     public static final String KOLUMNA_ILOS_W_ZAMOWIENIU = "OrderQuantity";
 
     private String LastID ="";
 
     //wersja bazy
-    private static final int DB_VERSION =7;
+    private static final int DB_VERSION =9;
 
 
 
@@ -70,7 +70,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql3);
 
         String sql4 ="CREATE TABLE "+ TABELA_SZCZEGOLY_ZAMOWIENIA + "("+KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "  + KOLUMNA_ILOSC + " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
         db.execSQL(sql4);
 
 
@@ -88,7 +88,6 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql3);
         onCreate(db);
     }
-    //Tworzenie Kilenta z podaniem statusu synchronizacji
     public boolean addKlient(String nazwa, int nrTel, int id_zBazy){
         try {
             SQLiteDatabase db = this.getWritableDatabase();
@@ -119,7 +118,6 @@ public class DB extends SQLiteOpenHelper {
         db.close();
         return true;
     }
-
     public boolean addZamowienie(int idBaza, int UserID, int CustomerID){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -134,7 +132,6 @@ public class DB extends SQLiteOpenHelper {
         return true;
 
     }
-
     public boolean updateZamowienia(String id, String value){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues cv = new ContentValues();
@@ -148,9 +145,9 @@ public class DB extends SQLiteOpenHelper {
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(KOLUMNA_ID_ZAMOWIENIA,OrderID);
+        contentValues.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,OrderID);
         contentValues.put(KOLUMNA_ID_Produktu,ProductID);
-        contentValues.put(KOLUMNA_ILOS_W_ZAMOWIENIU, Ilosc);
+        contentValues.put(KOLUMNA_ILOSC, Ilosc);
 
 
         db.insert(TABELA_SZCZEGOLY_ZAMOWIENIA, null, contentValues);
@@ -159,18 +156,6 @@ public class DB extends SQLiteOpenHelper {
 
         return true;
     }
-
-    //metoda zwracająca wszystkich Klientow
-/*    public Cursor getKlienci(){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String sql = "SELECT * FROM "+ TABELA_KLIENTOW +" ORDER BY " + KOLUMNA_ID_KLIENT +" ASC;";
-
-        Cursor c = db.rawQuery(sql,null);
-        return c;
-    }*/
-
-
     public void clearProdukty(){
         String sql= "Delete FROM " +TABELA_PRODUKTOW+ ";";
 
@@ -199,6 +184,22 @@ public class DB extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return LastID;
+    }
+    public ArrayList<Zamowienia> getZamowienia(){
+        ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();
+
+        String sql ="Select ID_zBazy, UserID, CustomerID FROM " +TABELA_ZAMOWIEN + " Order by "+ KOLUMNA_ID_ZAMOWIENIA+ " ASC;";
+
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2)))));
+                i++;
+            }while(cursor.moveToNext());
+        }
+        return orders;
     }
 
 
@@ -239,11 +240,6 @@ public class DB extends SQLiteOpenHelper {
 
         return products;
     }
-    // metoda zwracająca wszystkich klientów których dane nie sa  zapisane na serwerze
-    public Cursor getNiesynchronizowane(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT * FROM " +TABELA_KLIENTOW +" WHERE "+ KOLUMNA_STATUS + " =0;";
-        Cursor c = db.rawQuery(sql, null);
-        return c;
-    }
+
+
 }
