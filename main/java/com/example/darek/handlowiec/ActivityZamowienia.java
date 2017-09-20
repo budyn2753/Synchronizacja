@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -178,6 +179,9 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
         }
         Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
 
+
+        Intent i = new Intent(ActivityZamowienia.this, NotSynchronizedActivity.class);
+        startActivity(i);
 
     }
 

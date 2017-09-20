@@ -2,4 +2,5 @@
     <string name="app_name">Handlowiec</string>
     <string name="title_activity_zamowienia">ActivityZamowienia</string>
     <string name="title_activity_klienci">KlienciActivity</string>
+    <string name="title_activity_not_synchronized">NotSynchronizedActivity</string>
 </resources>

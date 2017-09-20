@@ -26,6 +26,10 @@
         <activity
             android:name=".KlienciActivity"
             android:label="@string/title_activity_klienci"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NotSynchronizedActivity"
+            android:label="@string/title_activity_not_synchronized"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
