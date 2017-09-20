@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.View;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -153,6 +154,9 @@ public class ActivityZamowienia extends Activity {
         String x = db.getLastOrderID();
         String y = Integer.toString(IDKlienta);
         new AddZamowienie(this).execute(logedUser,y,x);
+
+        Intent i = new Intent(ActivityZamowienia.this, NotSynchronizedActivity.class);
+        startActivity(i);
 
     }
 
