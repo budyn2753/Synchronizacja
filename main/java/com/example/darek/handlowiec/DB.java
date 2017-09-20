@@ -39,6 +39,7 @@ public class DB extends SQLiteOpenHelper {
 
 
     private String LastID ="";
+    private String[] Oo;
 
     //wersja bazy
     private static final int DB_VERSION =10;
@@ -171,8 +172,6 @@ public class DB extends SQLiteOpenHelper {
 
     }
     public String getLastOrderID(){
-
-
         String sql ="SELECT ID FROM " +TABELA_ZAMOWIEN+" ORDER BY id DESC LIMIT 1;";
 
         SQLiteDatabase db =this.getReadableDatabase();
@@ -184,6 +183,20 @@ public class DB extends SQLiteOpenHelper {
             }while(cursor.moveToNext());
         }
         return LastID;
+    }
+    public String[] getLastUnsyncID(){
+        String sql ="SELECT ID, CustomerID FROM " +TABELA_ZAMOWIEN+" WHERE ID_zBazy = 0 ORDER BY id DESC LIMIT 1;";
+        Oo = new String[2];
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                Oo[0] = cursor.getString(0);
+                Oo[1] = cursor.getString(1);
+            }while(cursor.moveToNext());
+        }
+        return Oo;
     }
     public ArrayList<Zamowienia> getZamowienia(){
         ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();

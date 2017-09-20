@@ -91,7 +91,13 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
     }
     public void pokazNS(View v){
-        Intent i = new Intent(Logon.this, ShowNotSynchronizedOrders.class);
+        String txt = status.getText().toString();
+
+        String [] tmp = txt.split(" ");
+
+        logedUser = tmp[0];
+        Intent i = new Intent(Logon.this, Temp.class);
+        i.putExtra("logedUser", logedUser);
         startActivity(i);
     }
 

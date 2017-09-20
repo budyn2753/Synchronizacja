@@ -31,7 +31,8 @@
             android:name=".ShowMyOrders"
             android:label="@string/title_activity_not_synchronized"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ShowNotSynchronizedOrders"></activity>
+        <activity android:name=".ShowNotSynchronizedOrders" />
+        <activity android:name=".Temp"></activity>
     </application>
 
 </manifest>
