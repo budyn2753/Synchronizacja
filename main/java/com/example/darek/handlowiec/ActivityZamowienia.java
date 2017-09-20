@@ -1,6 +1,8 @@
 package com.example.darek.handlowiec;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,7 +18,9 @@ import android.widget.Toast;
 import android.widget.ListView;
 import android.view.WindowManager;
 
-public class ActivityZamowienia extends Activity {
+import javax.xml.transform.Result;
+
+public class ActivityZamowienia extends Activity implements AsyncResponse {
 
 
 
@@ -40,18 +44,20 @@ public class ActivityZamowienia extends Activity {
     public String IloscProduktow;
     public String logedUser;
 
+    getIdZamowienia getIDz = new getIdZamowienia();
+    String id_Zamowienia ="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         db = new DB(this);
-
         logedUser = getIntent().getStringExtra("logedUser");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zamowienia);
 
 
-        //sqll = new DBmySQL();
+
 
         ListView chl = (ListView)findViewById(R.id.checkable_list);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -142,17 +148,36 @@ public class ActivityZamowienia extends Activity {
         return suma;
     }
 
-    public void showSelectedItems(View view){
+    public void showSelectedItems (View view) throws InterruptedException {
         //tu poprostu zapisze sie zamówienie do bazy
         String items="";
-        for(produkty item:selectedItems){
-            items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
-        }
-        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
         db.addZamowienie(0,Integer.parseInt(logedUser),IDKlienta);
         String x = db.getLastOrderID();
         String y = Integer.toString(IDKlienta);
         new AddZamowienie(this).execute(logedUser,y,x);
+        getIDz.delegate = this;
+        getIDz.execute(logedUser,x);
+        try {
+           id_Zamowienia = getIDz.get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        db.updateZamowienia(x,id_Zamowienia);
+
+        for(produkty item:selectedItems){
+            String idP, i;
+
+            items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
+            idP= Integer.toString(item.getId_baza()).trim();
+            i = Integer.toString(item.getIlosc()).trim();
+            new addSzczegolyZamowienia(this).execute(id_Zamowienia,idP,i);
+
+            //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
+
 
     }
 
@@ -164,5 +189,8 @@ public class ActivityZamowienia extends Activity {
     }
 
 
-
+    @Override
+    public void processFinish(String output) {
+        id_Zamowienia = output;
+    }
 }
