@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class NotSynchronizedActivity extends AppCompatActivity {
+public class ShowMyOrders extends AppCompatActivity {
 
     ArrayList<Zamowienia> Orders = new ArrayList<Zamowienia>();
     ArrayList<String> displayedk = new ArrayList<String>();

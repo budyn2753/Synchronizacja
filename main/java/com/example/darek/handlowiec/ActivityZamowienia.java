@@ -19,8 +19,6 @@ import android.widget.Toast;
 import android.widget.ListView;
 import android.view.WindowManager;
 
-import javax.xml.transform.Result;
-
 public class ActivityZamowienia extends Activity implements AsyncResponse {
 
 
@@ -63,7 +61,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
         ListView chl = (ListView)findViewById(R.id.checkable_list);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        IDKlienta = getIntent().getIntExtra("IDKlienta", 0);
+        IDKlienta = getIntent().getIntExtra("IDKlienta",0);
 
         txt = getIntent().getStringExtra("tekst");
         Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
@@ -149,23 +147,29 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
         return suma;
     }
 
-    public void showSelectedItems (View view) throws InterruptedException {
+    public void AddNewZamowienie(View view) throws InterruptedException {
         //tu poprostu zapisze sie zamówienie do bazy
+
+
         String items="";
-        db.addZamowienie(0,Integer.parseInt(logedUser),IDKlienta);
-        String x = db.getLastOrderID();
-        String y = Integer.toString(IDKlienta);
-        new AddZamowienie(this).execute(logedUser,y,x);
-        getIDz.delegate = this;
-        getIDz.execute(logedUser,x);
-        try {
-           id_Zamowienia = getIDz.get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
+        if(Integer.parseInt(logedUser)==0) {
+            db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
+        }else {
+            String x = db.getLastOrderID();
+            String y = Integer.toString(IDKlienta);
+            new AddZamowienie(this).execute(logedUser, y, x);
+            getIDz.delegate = this;
+            getIDz.execute(logedUser, x);
+            try {
+                id_Zamowienia = getIDz.get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+
+            db.updateZamowienia(x, id_Zamowienia);
         }
-
-
-        db.updateZamowienia(x,id_Zamowienia);
 
         for(produkty item:selectedItems){
             String idP, i;
@@ -173,15 +177,19 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
             items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
             idP= Integer.toString(item.getId_baza()).trim();
             i = Integer.toString(item.getIlosc()).trim();
-            new addSzczegolyZamowienia(this).execute(id_Zamowienia,idP,i);
-            db.addSzczegolyZamowienia(Integer.parseInt(id_Zamowienia),item.getId_baza(),item.getIlosc());
+            if(Integer.parseInt(logedUser)!=0) {
+                new addSzczegolyZamowienia(this).execute(id_Zamowienia, idP, i);
+                db.addSzczegolyZamowienia(Integer.parseInt(id_Zamowienia), item.getId_baza(), item.getIlosc());
+            }else{
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), 0, item.getIlosc());
+            }
 
             //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
         }
         Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
 
 
-        Intent i = new Intent(ActivityZamowienia.this, NotSynchronizedActivity.class);
+        Intent i = new Intent(ActivityZamowienia.this, ShowMyOrders.class);
         startActivity(i);
 
     }

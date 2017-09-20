@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.example.darek.handlowiec.NotSynchronizedActivity">
-
+    tools:context="com.example.darek.handlowiec.ShowMyOrders">
 
 
     <ListView
         android:id="@+id/NSlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        >
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="false">
 
     </ListView>
 </LinearLayout>
