@@ -25,7 +25,6 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
 
         FillZamowienia();
 
-        Toast.makeText(getParent(), "Zaznaczyłeś\n" + Orders.get(1).getCustomerID() + " " + Orders.get(1).getUserID(), Toast.LENGTH_LONG).show();
 
         ListView chl = (ListView)findViewById(R.id.NSlist);
 
@@ -34,17 +33,6 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
         }
         ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
         chl.setAdapter(mHistory);
-        chl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
-                Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
-
-                Toast.makeText(getParent(), "Zaznaczyłeś\n" + tmp.getCustomerID() + " " + tmp.getUserID(), Toast.LENGTH_LONG).show();
-
-                //Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
-                //startActivity(i);
-            }
-        });
     }
 
     private void FillZamowienia(){

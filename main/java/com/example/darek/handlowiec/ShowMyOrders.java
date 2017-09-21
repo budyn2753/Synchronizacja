@@ -1,9 +1,18 @@
 package com.example.darek.handlowiec;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,13 +30,32 @@ public class ShowMyOrders extends AppCompatActivity {
 
         FillZamowienia();
 
+
+
+        if(!Orders.isEmpty())
+            Toast.makeText(this, "Zaznaczyłeś\n" + Orders.get(0).getCustomerID() + " " + Orders.get(0).getUserID(), Toast.LENGTH_LONG).show();
+
+
+
         ListView chl = (ListView)findViewById(R.id.NSlist);
 
         for(Zamowienia x: Orders){
             displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerID() );
         }
-      ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
+
+
+        ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
       chl.setAdapter(mHistory);
+        chl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
+
+
+                //Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
+                //startActivity(i);
+            }
+        });
     }
 
     private void FillZamowienia(){
