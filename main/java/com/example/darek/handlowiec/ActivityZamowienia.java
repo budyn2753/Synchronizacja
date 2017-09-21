@@ -187,7 +187,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
 
             //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
 
 
         Intent i = new Intent(ActivityZamowienia.this, ShowMyOrders.class);

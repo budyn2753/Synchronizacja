@@ -17,6 +17,10 @@ public class Zamowienia {
         this.CustomerID=CustomerID;
     }
 
+    public Zamowienia (int ID){
+        this.ID = ID;
+    }
+
     public int getID() {
         return ID;
     }
@@ -50,7 +54,18 @@ public class Zamowienia {
     }
 
 
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean sameSame = false;
 
+        if (object != null && object instanceof Zamowienia)
+        {
+            sameSame = this.getID() == ((Zamowienia) object).getID();
+        }
+
+        return sameSame;
+    }
 
 
 }
