@@ -25,7 +25,7 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
 
         FillZamowienia();
 
-        Toast.makeText(getParent(), "Zaznaczyłeś\n" + Orders.get(0).getCustomerID() + " " + Orders.get(0).getUserID(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getParent(), "Zaznaczyłeś\n" + Orders.get(1).getCustomerID() + " " + Orders.get(1).getUserID(), Toast.LENGTH_LONG).show();
 
         ListView chl = (ListView)findViewById(R.id.NSlist);
 
