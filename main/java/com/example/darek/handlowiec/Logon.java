@@ -96,9 +96,23 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
         String [] tmp = txt.split(" ");
 
         logedUser = tmp[0];
-        Intent i = new Intent(Logon.this, Temp.class);
-        i.putExtra("logedUser", logedUser);
-        startActivity(i);
+        if(logedUser.isEmpty()){
+            Intent i = new Intent(Logon.this, ShowNotSynchronizedOrders.class);
+            i.putExtra("logedUser", "0");
+            startActivity(i);
+        }else{
+            addingClientFromRequest(text);
+            Intent i = new Intent(Logon.this, ShowNotSynchronizedOrders.class);
+            i.putExtra("logedUser", logedUser);
+            startActivity(i);
+        }
+    }
+    public void dodajDoZamowienia(View v){
+
+            Intent i = new Intent(Logon.this, ShowMyOrders.class);
+
+            startActivity(i);
+
     }
 
     @Override

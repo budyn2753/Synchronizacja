@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,23 +15,53 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
     ArrayList<Zamowienia> Orders = new ArrayList<Zamowienia>();
     ArrayList<String> displayedk = new ArrayList<String>();
     DB db;
+    String logedUser;
+    int idlocal;
+    int idKlienta;
+    getIdZamowienia getIDz = new getIdZamowienia();
+    String id_Zamowienia ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_showallzamowienia);
+        setContentView(R.layout.activity_show_not_synchronized_orders);
         db = new DB(this);
-
+        logedUser = getIntent().getStringExtra("logedUser");
         FillZamowienia();
 
 
-        ListView chl = (ListView)findViewById(R.id.NSlist);
+
+        //if(!Orders.isEmpty())
+            //Toast.makeText(this, "Zaznaczyłeś\n" + Orders.get(0).getCustomerID() + " " + Orders.get(0).getUserID(), Toast.LENGTH_LONG).show();
+
+
+
+        ListView chl = (ListView)findViewById(R.id.NSslist);
 
         for(Zamowienia x: Orders){
             displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerID() );
         }
-        ArrayAdapter<String> mHistory = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,displayedk);
-        chl.setAdapter(mHistory);
+
+
+        ArrayAdapter<String> mHistory2 = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1,displayedk);
+        chl.setAdapter(mHistory2);
+        chl.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
+                Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
+                 idlocal= tmp.getIDLocal();
+                idKlienta = tmp.getCustomerID();
+                Intent i = new Intent(ShowNotSynchronizedOrders.this, Synchronizuj.class);
+                i.putExtra("IDZamowienia",idlocal);
+                i.putExtra("IDKlienta",idKlienta);
+                i.putExtra("logedUser", logedUser);
+
+
+                startActivity(i);
+            }
+
+        });
+
     }
 
     private void FillZamowienia(){

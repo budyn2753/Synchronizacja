@@ -39,10 +39,11 @@ public class DB extends SQLiteOpenHelper {
 
 
     private String LastID ="";
-    private String[] Oo;
+    private String[] Ooo;
+    private ArrayList<String> Oo;
 
     //wersja bazy
-    private static final int DB_VERSION =10;
+    private static final int DB_VERSION =11;
 
 
 
@@ -195,28 +196,28 @@ public class DB extends SQLiteOpenHelper {
     }
     public String[] getLastUnsyncID(){
         String sql ="SELECT ID, CustomerID FROM " +TABELA_ZAMOWIEN+" WHERE ID_zBazy = 0 ORDER BY id DESC LIMIT 1;";
-        Oo = new String[2];
+        Ooo = new String[2];
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                Oo[0] = cursor.getString(0);
-                Oo[1] = cursor.getString(1);
+                Ooo[0] = cursor.getString(0);
+                Ooo[1] = cursor.getString(1);
             }while(cursor.moveToNext());
         }
-        return Oo;
+        return Ooo;
     }
-    public String[] getLastUnsyncIloscAndID(String id){
-        String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+" ORDER BY id DESC LIMIT 1;";
-        Oo = new String[2];
+    public ArrayList<String> getLastUnsyncIloscAndID(String id){
+        String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+";";
+        Oo = new ArrayList<>();
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                Oo[0] = cursor.getString(0);
-                Oo[1] = cursor.getString(1);
+                Oo.add(cursor.getString(0));
+                Oo.add(cursor.getString(0));
             }while(cursor.moveToNext());
         }
         return Oo;
@@ -254,14 +255,14 @@ public class DB extends SQLiteOpenHelper {
     public ArrayList<Zamowienia>getNotSynchronizedOrders(){
         ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();
 
-        String sql ="Select ID_zBazy, UserID, CustomerID FROM " +TABELA_ZAMOWIEN + " WHERE ID_zBazy = 0 Order by "+ KOLUMNA_ID_ZAMOWIENIA+ " ASC;";
+        String sql ="Select ID, ID_zBazy, UserID, CustomerID FROM " +TABELA_ZAMOWIEN + " WHERE ID_zBazy = 0 Order by "+ KOLUMNA_ID_ZAMOWIENIA+ " ASC;";
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2)))));
+                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2))), Integer.parseInt(cursor.getString(3))));
                 i++;
             }while(cursor.moveToNext());
         }

@@ -12,11 +12,11 @@
         android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/btshow1"
+            android:id="@+id/btshow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="AddNewZamowienie"
-            android:text="Pokaż co zaznaczyłem"
+            android:onClick="AddNewSczegolyZamowienie"
+            android:text="Dodaj do zamowienia"
 
             />
 
@@ -27,7 +27,7 @@
             android:layout_weight="0"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="Aktualna wartość zamówienia: 0.0" />
+            android:text="Aktualna wartość dodawanego towaru: 0.0" />
     </LinearLayout>
 
 

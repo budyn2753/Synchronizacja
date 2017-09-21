@@ -53,7 +53,8 @@ public class ShowMyOrders extends AppCompatActivity {
                 Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
                 int idbaza = tmp.getID_zBazy();
 
-                Intent i = new Intent(ShowMyOrders.this, ActivityZamowienia.class);
+                Intent i = new Intent(ShowMyOrders.this, ActivityProdukty.class);
+                i.putExtra("IDZamowienia",idbaza);
                 startActivity(i);
             }
         });

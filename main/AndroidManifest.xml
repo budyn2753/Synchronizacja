@@ -32,7 +32,7 @@
             android:label="@string/title_activity_not_synchronized"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ShowNotSynchronizedOrders" />
-        <activity android:name=".Temp" />
+        <activity android:name=".Synchronizuj" />
         <activity android:name=".ActivityProdukty"></activity>
     </application>
 

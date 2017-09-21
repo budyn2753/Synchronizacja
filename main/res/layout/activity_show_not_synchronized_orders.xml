@@ -4,26 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.example.darek.handlowiec.ShowNotSynchronizedOrders"
-    android:weightSum="1">
+    tools:context="com.example.darek.handlowiec.ShowNotSynchronizedOrders">
 
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="Synchronizuj"
-        android:visibility="visible" />
 
     <ListView
-        android:id="@+id/NSOlist"
+        android:id="@+id/NSslist"
         android:layout_width="fill_parent"
-        android:layout_height="150dp"
-        android:layout_weight="0.99"
+        android:layout_height="wrap_content"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="false">
 
     </ListView>
-
 </LinearLayout>

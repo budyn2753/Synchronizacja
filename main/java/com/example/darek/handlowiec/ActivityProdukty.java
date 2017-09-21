@@ -44,7 +44,7 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
     public String logedUser;
 
     getIdZamowienia getIDz = new getIdZamowienia();
-    String id_Zamowienia ="";
+    int id_Zamowienia;
 
 
     @Override
@@ -53,12 +53,12 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
         db = new DB(this);
         logedUser = getIntent().getStringExtra("logedUser");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zamowienia);
+        setContentView(R.layout.activity_produkty);
+        id_Zamowienia = getIntent().getIntExtra("IDZamowienia",0);
 
+        Toast.makeText(this,Integer.toString(id_Zamowienia),Toast.LENGTH_SHORT).show();
 
-
-
-        ListView chl = (ListView)findViewById(R.id.checkable_list);
+        ListView chl = (ListView)findViewById(R.id.checkable_list1);
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         IDKlienta = getIntent().getIntExtra("IDKlienta",0);
@@ -66,7 +66,7 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
         txt = getIntent().getStringExtra("tekst");
         Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
 
-        SumaZakupow = (TextView)findViewById(R.id.txtview);
+        SumaZakupow = (TextView)findViewById(R.id.txtview1);
 
         FillProdukty();
 
@@ -147,13 +147,13 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
         return suma;
     }
 
-    public void AddNewZamowienie(View view) throws InterruptedException {
+    public void AddNewSczegolyZamowienie(View view) throws InterruptedException {
         //tu poprostu zapisze sie zamówienie do bazy
 
 
         String items="";
 
-        if(Integer.parseInt(logedUser)==0) {
+        /*if(Integer.parseInt(logedUser)==0) {
             db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
         }else {
             db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
@@ -170,7 +170,7 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
 
 
             db.updateZamowienia(x, id_Zamowienia);
-        }
+        }*/
 
         for(produkty item:selectedItems){
             String idP, i;
@@ -178,11 +178,11 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
             items+="-id: "+item.getId()+ "id z bazy: "+ item.getId_baza() + " nazwa: " + item.getNazwa() + " ilosc: " + item.getIlosc() + " cena: " + item.getCena() + "\n";
             idP= Integer.toString(item.getId_baza()).trim();
             i = Integer.toString(item.getIlosc()).trim();
-            if(Integer.parseInt(logedUser)!=0) {
-                new addSzczegolyZamowienia(this).execute(id_Zamowienia, idP, i);
-                db.addSzczegolyZamowienia(Integer.parseInt(id_Zamowienia), item.getId_baza(), item.getIlosc());
+            if(id_Zamowienia!=0) {
+                new addSzczegolyZamowienia(this).execute(Integer.toString(id_Zamowienia), idP, i);
+                db.addSzczegolyZamowienia(id_Zamowienia, item.getId_baza(), item.getIlosc());
             }else{
-                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), 0, item.getIlosc());
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), item.getId_baza(), item.getIlosc());
             }
 
             //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
@@ -190,7 +190,7 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
         //Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
 
 
-        Intent i = new Intent(ActivityZamowienia.this, ShowMyOrders.class);
+        Intent i = new Intent(ActivityProdukty.this, ShowMyOrders.class);
         startActivity(i);
 
     }
@@ -205,6 +205,6 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
 
     @Override
     public void processFinish(String output) {
-        id_Zamowienia = output;
+        id_Zamowienia = Integer.parseInt(output);
     }
 }

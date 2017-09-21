@@ -10,8 +10,8 @@
 
     <TextView
         android:id="@+id/textViewZalogujSie"
-        android:layout_width="259dp"
-        android:layout_height="0dp"
+        android:layout_width="260dp"
+        android:layout_height="38dp"
         android:layout_marginBottom="11dp"
         android:text="Zaloguj sie"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -41,12 +41,12 @@
         android:inputType="textPersonName"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/passwordField"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginBottom="15dp" />
+        android:layout_marginBottom="-40dp" />
 
     <EditText
         android:id="@+id/passwordField"
@@ -57,18 +57,18 @@
         android:inputType="textPassword"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/buttonLogon"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.433"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
-        android:layout_marginBottom="31dp" />
+        android:layout_marginBottom="-23dp" />
 
     <Button
         android:id="@+id/buttonLogon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="19dp"
+        android:layout_marginBottom="-30dp"
         android:onClick="login"
         android:text="Logon"
         android:visibility="visible"
@@ -76,7 +76,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        app:layout_constraintHorizontal_bias="0.463" />
 
     <TextView
         android:id="@+id/textViewPowitanie"
@@ -93,26 +94,31 @@
         android:layout_marginEnd="18dp"
         tools:layout_constraintLeft_creator="1"
         app:layout_constraintHorizontal_bias="0.0"
-        android:layout_marginBottom="-121dp" />
+        android:layout_marginBottom="-49dp" />
 
     <Button
         android:id="@+id/buttonDalej"
-        android:layout_width="344dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="124dp"
+        android:layout_marginBottom="167dp"
         android:onClick="onClick"
-        android:text="Dalej"
+        android:text="Dodaj zamowienie"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0" />
 
     <Button
         android:id="@+id/button"
-        android:layout_width="344dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="41dp"
         android:layout_marginTop="8dp"
@@ -123,8 +129,34 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonDalej"
-        app:layout_constraintVertical_bias="0.296"
+        app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1" />
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="334dp"
+        android:layout_height="44dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="21dp"
+        android:onClick="dodajDoZamowienia"
+        android:text="dodaj do zamowienia"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_editor_absoluteX="32dp"
+        tools:layout_editor_absoluteY="433dp" />
 </android.support.constraint.ConstraintLayout>

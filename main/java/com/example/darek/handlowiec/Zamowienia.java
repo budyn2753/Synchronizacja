@@ -9,6 +9,7 @@ public class Zamowienia {
     private int ID_zBazy;
     private int UserID;
     private int CustomerID;
+    private int IDLocal;
 
     public Zamowienia (int ID, int ID_zBazy, int UserID, int CustomerID){
         this.ID = ID;
@@ -17,8 +18,24 @@ public class Zamowienia {
         this.CustomerID=CustomerID;
     }
 
+    public Zamowienia (int ID, int IDLocal, int ID_zBazy, int UserID, int CustomerID){
+        this.ID = ID;
+        this.IDLocal = IDLocal;
+        this.ID_zBazy=ID_zBazy;
+        this.UserID =UserID;
+        this.CustomerID=CustomerID;
+    }
+
+
     public Zamowienia (int ID){
         this.ID = ID;
+    }
+    public int getIDLocal() {
+        return IDLocal;
+    }
+
+    public void setIDLocal(int IDLocal) {
+        this.IDLocal = IDLocal;
     }
 
     public int getID() {
