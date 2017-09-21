@@ -2,6 +2,7 @@ package com.example.darek.handlowiec;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -50,10 +51,10 @@ public class ShowMyOrders extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
+                int idbaza = tmp.getID_zBazy();
 
-
-                //Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
-                //startActivity(i);
+                Intent i = new Intent(ShowMyOrders.this, ActivityZamowienia.class);
+                startActivity(i);
             }
         });
     }
