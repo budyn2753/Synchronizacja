@@ -50,21 +50,25 @@ public class Synchronizuj extends AppCompatActivity implements AsyncResponse {
             getIDz.execute(logedUser, Integer.toString(id_Zamowienia));
             try {
                 idZamzBazy = getIDz.get();
-                db.updateZamowienia(Integer.toString(id_Zamowienia), idZamzBazy);
 
-                ArrayList<String> sb = db.getLastUnsyncIloscAndID(Integer.toString(id_Zamowienia));
-                for (int i = 0; i <= licznik; i++) {
-
-                    new addSzczegolyZamowienia(this).execute(idZamzBazy, sb.get(i), sb.get(i + 1));
-                    db.updateSzczeglyZamowienia(idZamzBazy, Integer.toString(id_Zamowienia));
-
-                }
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            db.updateZamowienia(Integer.toString(id_Zamowienia), idZamzBazy);
 
+            ArrayList<String> sb = db.getLastUnsyncIloscAndID(Integer.toString(id_Zamowienia));
+            for (int i = 0; i <= licznik; i++) {
+                try {
+                    new addSzczegolyZamowienia(this).execute(idZamzBazy, sb.get(i), sb.get(i + 1));
+                    db.updateSzczeglyZamowienia(idZamzBazy, Integer.toString(id_Zamowienia));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+            }
             Intent i = new Intent(Synchronizuj.this, ShowNotSynchronizedOrders.class);
             i. putExtra("logedUser", logedUser);
             startActivity(i);
