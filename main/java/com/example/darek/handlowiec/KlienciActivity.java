@@ -44,7 +44,14 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
         ListView chl = (ListView)findViewById(R.id.checkable_listK);
         chl.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+
         FillKlienci();
+
+        if(klienci.isEmpty()){
+            Intent i = new Intent(KlienciActivity.this, Logon.class);
+            Toast.makeText(this, "Cos poszlo nie tak! Sprobuj ponownie", Toast.LENGTH_SHORT).show();
+            startActivity(i);
+        }
 
         for(Klient x: klienci){
             displayedk.add("Nazwa: " + x.getNazwa());
@@ -58,7 +65,6 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                     addingProductsFromRequest(text);
                     Klient tmp = klienci.get(klienci.indexOf(new Klient((int)id)));
-                    //Toast.makeText(getParent(), "Zaznaczyłeś\n" + tmp.getNazwa(), Toast.LENGTH_LONG).show();
                     Intent i = new Intent(KlienciActivity.this, ActivityZamowienia.class);
                     i.putExtra("IDKlienta", tmp.getID_baza());
                     i.putExtra("logedUser", logedUser);
@@ -67,21 +73,17 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
         });
     }
 
-    private void FillKlienci(){
+    private void FillKlienci() {
 
         klienci = db.getClient();
-        /*
-        klienci.add(new Klient(0, 11, "Dariusz1",  723410501));
-        klienci.add(new Klient(1, 22, "Dariusz11",  723410501));
-        klienci.add(new Klient(2, 33, "Dariusz111",  723410501));
-        klienci.add(new Klient(3, 44, "11111",  723410501));
-        */
     }
     public void addingProductsFromRequest(String text) {
-        db.clearProdukty();
+
+
         if (text == "")
             Toast.makeText(this, "Brak Połączenia", Toast.LENGTH_SHORT).show();
         else {
+            db.clearProdukty();
             int IloscKolumnWBazie = 4;
             String[] temp = text.split(",");
             text = "";

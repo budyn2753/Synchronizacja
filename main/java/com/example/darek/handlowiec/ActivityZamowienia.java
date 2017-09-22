@@ -31,18 +31,10 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
     ArrayList<String> displayed = new ArrayList<String>();
     DB db;
     int IDKlienta;
-    int UserID;
-
-    //DBmySQL sqll;
-    //Logon logon = new Logon();
-    String txt = "";
     TextView SumaZakupow;
-
-
     public long idzaznaczone;
     public String IloscProduktow;
     public String logedUser;
-
     getIdZamowienia getIDz = new getIdZamowienia();
     String id_Zamowienia ="";
 
@@ -62,13 +54,15 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
         chl.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         IDKlienta = getIntent().getIntExtra("IDKlienta",0);
-
-        txt = getIntent().getStringExtra("tekst");
-        Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
-
         SumaZakupow = (TextView)findViewById(R.id.txtview);
 
         FillProdukty();
+
+        if(items.isEmpty()){
+            Intent i = new Intent(ActivityZamowienia.this, Logon.class);
+            Toast.makeText(this, "Cos poszło nie tak! Sprobuj ponownie", Toast.LENGTH_SHORT).show();
+            startActivity(i);
+        }
 
         for(produkty x: items){
             displayed.add(x.getNazwa() + " Cena: " + x.getCena());
@@ -180,14 +174,13 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
             i = Integer.toString(item.getIlosc()).trim();
             if(Integer.parseInt(logedUser)!=0) {
                 new addSzczegolyZamowienia(this).execute(id_Zamowienia, idP, i);
-                db.addSzczegolyZamowienia(Integer.parseInt(id_Zamowienia), item.getId_baza(), item.getIlosc());
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()),Integer.parseInt(id_Zamowienia), item.getId_baza(), item.getIlosc());
             }else{
-                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), 0, item.getIlosc());
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()),0,item.getId_baza(), item.getIlosc());
             }
 
-            //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();
+
         }
-        //Toast.makeText(this,"Zaznaczyłeś\n" + items + "Dla Klienta: " + IDKlienta + " Przez użytkownika: "+ logedUser, Toast.LENGTH_LONG).show();
 
 
         Intent i = new Intent(ActivityZamowienia.this, ShowMyOrders.class);
@@ -197,7 +190,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
 
 
     public void FillProdukty(){
-        //db.clearProdukty();
+
         items = db.getProducts();
 
     }

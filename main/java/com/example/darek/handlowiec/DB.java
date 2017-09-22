@@ -36,22 +36,18 @@ public class DB extends SQLiteOpenHelper {
     public static final String KOLUMNA_ORDERDATE = "OrderDate";
     public static final String KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA= "ID";
     public static final String KOLUMNA_ID_PRODUKTU_SZ ="ProductID";
+    public static final String KOLUMNA_ID_ZAMOWIENIA_LOCAL = "IDZamLocal";
 
 
     private String LastID ="";
     private String[] Ooo;
     private ArrayList<String> Oo;
-
+    private ArrayList<Integer> IDdoEdycji;
     //wersja bazy
-    private static final int DB_VERSION =11;
-
-
+    private static final int DB_VERSION =12;
 
     //KONSTRUKTOR
     public DB(Context context){super(context,DB_NAZWA,null,DB_VERSION);}
-
-
-
 
     //Tworzenie bazy
     @Override
@@ -72,7 +68,7 @@ public class DB extends SQLiteOpenHelper {
         db.execSQL(sql3);
 
         String sql4 ="CREATE TABLE "+ TABELA_SZCZEGOLY_ZAMOWIENIA + "("+KOLUMNA_ID_SZCZEGOLY_ZAMOWIENIA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
-                +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "+KOLUMNA_ID_PRODUKTU_SZ+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
+                +KOLUMNA_ID_ZAMOWIENIA_LOCAL+ " INT, " +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "+KOLUMNA_ID_PRODUKTU_SZ+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
         db.execSQL(sql4);
 
 
@@ -152,10 +148,11 @@ public class DB extends SQLiteOpenHelper {
 
         return true;
     }
-    public boolean addSzczegolyZamowienia(int OrderID,int ProductID,int Ilosc){
+    public boolean addSzczegolyZamowienia(int OrderIDLocal,int OrderID,int ProductID,int Ilosc){
         SQLiteDatabase db =this.getReadableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(KOLUMNA_ID_ZAMOWIENIA_LOCAL,OrderIDLocal);
         contentValues.put(KOLUMNA_ID_Z_BAZY_ZAMOWIENIA,OrderID);
         contentValues.put(KOLUMNA_ID_PRODUKTU_SZ,ProductID);
         contentValues.put(KOLUMNA_ILOSC, Ilosc);
@@ -186,7 +183,6 @@ public class DB extends SQLiteOpenHelper {
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
-        int i =0;
         if(cursor.moveToFirst()){
             do{
                 LastID = cursor.getString(0);
@@ -208,8 +204,9 @@ public class DB extends SQLiteOpenHelper {
         }
         return Ooo;
     }
+
     public ArrayList<String> getLastUnsyncIloscAndID(String id){
-        String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+";";
+        String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE IDZamLocal = "+id+";";
         Oo = new ArrayList<>();
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
@@ -217,13 +214,27 @@ public class DB extends SQLiteOpenHelper {
         if(cursor.moveToFirst()){
             do{
                 Oo.add(cursor.getString(0));
-                Oo.add(cursor.getString(0));
+                Oo.add(cursor.getString(1));
             }while(cursor.moveToNext());
         }
         return Oo;
     }
+
+    public ArrayList<Integer> getProductsIDFromSzczegoly(String id){
+        String sql ="SELECT ProductID FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE IDZamLocal = "+id+";";
+        IDdoEdycji = new ArrayList<>();
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                IDdoEdycji.add(Integer.parseInt(cursor.getString(0)));
+            }while(cursor.moveToNext());
+        }
+        return IDdoEdycji;
+    }
     public String getUnsycedCountOfSzZamID(String id){
-        String sql ="SELECT COUNT (ID) FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE ID_zBazy = "+id+ ";";
+        String sql ="SELECT COUNT (ID) FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE IDZamLocal = "+id+ ";";
         String licznik = "";
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
@@ -304,6 +315,19 @@ public class DB extends SQLiteOpenHelper {
 
         return products;
     }
+    public produkty getProductByID(String ID){
+        produkty product= new produkty();
 
+        String sql ="Select * FROM " +TABELA_PRODUKTOW + "WHERE id_baza Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
 
+        SQLiteDatabase db =this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql,null);
+        int i =0;
+        if(cursor.moveToFirst()){
+            do{
+                product = new produkty(i, (Integer.parseInt(cursor.getString(4))),cursor.getString(1),(Float.parseFloat(cursor.getString(2))));
+            }while(cursor.moveToNext());
+        }
+        return product;
+    }
 }

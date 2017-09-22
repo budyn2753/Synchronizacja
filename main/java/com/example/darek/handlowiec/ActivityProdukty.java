@@ -63,9 +63,6 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
 
         IDKlienta = getIntent().getIntExtra("IDKlienta",0);
 
-        txt = getIntent().getStringExtra("tekst");
-        Toast.makeText(this,txt, Toast.LENGTH_LONG).show();
-
         SumaZakupow = (TextView)findViewById(R.id.txtview1);
 
         FillProdukty();
@@ -180,9 +177,9 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
             i = Integer.toString(item.getIlosc()).trim();
             if(id_Zamowienia!=0) {
                 new addSzczegolyZamowienia(this).execute(Integer.toString(id_Zamowienia), idP, i);
-                db.addSzczegolyZamowienia(id_Zamowienia, item.getId_baza(), item.getIlosc());
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()),id_Zamowienia, item.getId_baza(), item.getIlosc());
             }else{
-                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), item.getId_baza(), item.getIlosc());
+                db.addSzczegolyZamowienia(Integer.parseInt(db.getLastOrderID()), 0,item.getId_baza(), item.getIlosc());
             }
 
             //Toast.makeText(this,Integer.toString(item.getId_baza()),Toast.LENGTH_SHORT).show();

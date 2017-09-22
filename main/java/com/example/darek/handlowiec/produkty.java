@@ -11,6 +11,7 @@ public class produkty {
     private float cena;
     private int ilosc;
     private String informacjedodatkowe;
+    produkty(){}
 
     produkty(int id_k, String nazwa_k, float cena_k,int ilosc_k,int id_baza_K, String informacjedodatkowe_k){
         setId(id_k);

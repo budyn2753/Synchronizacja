@@ -4,19 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context="com.example.darek.handlowiec.ShowMyOrders">
+    tools:context="com.example.darek.handlowiec.ShowProduktyZamowienia">
 
 
     <Button
-        android:id="@+id/btZakoncz"
+        android:id="@+id/btDodaj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="Zakoncz"
-        android:text="Zakoncz edycje"
+        android:onClick="DodajDoZamowienia"
+        android:text="Dodaj do zamowienia"
 
         />
     <ListView
-        android:id="@+id/NSlist"
+        android:id="@+id/ZPlist"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:footerDividersEnabled="true"

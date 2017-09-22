@@ -53,7 +53,7 @@ public class Synchronizuj extends AppCompatActivity implements AsyncResponse {
                 db.updateZamowienia(Integer.toString(id_Zamowienia), idZamzBazy);
 
                 ArrayList<String> sb = db.getLastUnsyncIloscAndID(Integer.toString(id_Zamowienia));
-                for (int i = 0; i < licznik; i++) {
+                for (int i = 0; i <= licznik; i++) {
 
                     new addSzczegolyZamowienia(this).execute(idZamzBazy, sb.get(i), sb.get(i + 1));
                     db.updateSzczeglyZamowienia(idZamzBazy, Integer.toString(id_Zamowienia));

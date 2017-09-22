@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,10 +30,12 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
         logedUser = getIntent().getStringExtra("logedUser");
         FillZamowienia();
 
+        if(Orders.isEmpty()){
+            Intent i = new Intent(ShowNotSynchronizedOrders.this, Logon.class);
+            Toast.makeText(this, "Brak elementow do synchronizcji",Toast.LENGTH_SHORT).show();
+            startActivity(i);
+        }
 
-
-        //if(!Orders.isEmpty())
-            //Toast.makeText(this, "Zaznaczyłeś\n" + Orders.get(0).getCustomerID() + " " + Orders.get(0).getUserID(), Toast.LENGTH_LONG).show();
 
 
 

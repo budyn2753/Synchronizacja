@@ -60,6 +60,11 @@ public class ShowMyOrders extends AppCompatActivity {
         });
     }
 
+    public void Zakoncz(View v){
+        Intent i = new Intent(ShowMyOrders.this, Logon.class);
+        startActivity(i);
+    }
+
     private void FillZamowienia(){
        Orders = db.getZamowienia();
     }

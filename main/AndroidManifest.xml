@@ -33,7 +33,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ShowNotSynchronizedOrders" />
         <activity android:name=".Synchronizuj" />
-        <activity android:name=".ActivityProdukty"></activity>
+        <activity android:name=".ActivityProdukty" />
+        <activity android:name=".ShowProduktyZamowienia"></activity>
     </application>
 
 </manifest>
