@@ -52,9 +52,11 @@ public class ShowMyOrders extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
                 int idlocal = tmp.getIDLocal();
+                int idzam = tmp.getID_zBazy();
 
                 Intent i = new Intent(ShowMyOrders.this, ShowProduktyZamowienia.class);
                 i.putExtra("IDZamowienia",idlocal);
+                i.putExtra("IDZamTemp",idzam);
                 startActivity(i);
             }
         });

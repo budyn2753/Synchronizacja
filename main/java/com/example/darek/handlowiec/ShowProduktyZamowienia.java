@@ -23,6 +23,7 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
     ArrayList<String> displayedk = new ArrayList<String>();
     DB db;
     int id_Zamowienia;
+    int idZamTemp;
 
 
     @Override
@@ -31,7 +32,8 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
         setContentView(R.layout.activity_show_produkty_zamowienia);
         db = new DB(this);
         id_Zamowienia = getIntent().getIntExtra("IDZamowienia",0);
-       // IDs = db.getProductsIDFromSzczegoly(Integer.toString(id_Zamowienia));
+       idZamTemp = getIntent().getIntExtra("IDZamTemp", 0);
+
         FillZamowienia();
 
 
@@ -42,7 +44,7 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
         ListView chl = (ListView)findViewById(R.id.ZPlist);
 
         for(produkty x: Products){
-            displayedk.add("ID \t: " + x.getId_baza() + " Nazwa: " +x.getNazwa());
+            displayedk.add(x.getNazwa()+"\t\tIlosć: "+x.getIlosc());
         }
 
 
@@ -51,8 +53,9 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
 
     }
 
-    public void Zakoncz(View v){
-        Intent i = new Intent(ShowProduktyZamowienia.this, ShowMyOrders.class);
+    public void DodajDoZamowienia(View v){
+        Intent i = new Intent(ShowProduktyZamowienia.this, ActivityProdukty.class);
+        i.putExtra("IDZamowienia",idZamTemp);
         startActivity(i);
     }
 
