@@ -23,7 +23,7 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
     ArrayList<String> displayedk = new ArrayList<String>();
     DB db;
     int id_Zamowienia;
-    ArrayList<Integer> IDs = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
         setContentView(R.layout.activity_show_produkty_zamowienia);
         db = new DB(this);
         id_Zamowienia = getIntent().getIntExtra("IDZamowienia",0);
-        IDs = db.getProductsIDFromSzczegoly(Integer.toString(id_Zamowienia));
+       // IDs = db.getProductsIDFromSzczegoly(Integer.toString(id_Zamowienia));
         FillZamowienia();
 
 
@@ -58,9 +58,9 @@ public class ShowProduktyZamowienia extends AppCompatActivity {
 
     private void FillZamowienia(){
 
-        for (Integer i: IDs) {
-            Products.add(i,db.getProductByID(Integer.toString(i)));
-        }
+
+        Products = db.getProductByID(Integer.toString(id_Zamowienia));
+
 
     }
 }

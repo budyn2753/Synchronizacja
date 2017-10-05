@@ -41,7 +41,7 @@ public class ShowMyOrders extends AppCompatActivity {
         ListView chl = (ListView)findViewById(R.id.NSlist);
 
         for(Zamowienia x: Orders){
-            displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerID() );
+            displayedk.add("Zam:\t" + x.getID_zBazy()+ " Dla: " +x.getCustomerName() );
         }
 
 
@@ -51,10 +51,10 @@ public class ShowMyOrders extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 Zamowienia tmp = Orders.get(Orders.indexOf(new Zamowienia((int)id)));
-                int idbaza = tmp.getID_zBazy();
+                int idlocal = tmp.getIDLocal();
 
-                Intent i = new Intent(ShowMyOrders.this, ActivityProdukty.class);
-                i.putExtra("IDZamowienia",idbaza);
+                Intent i = new Intent(ShowMyOrders.this, ShowProduktyZamowienia.class);
+                i.putExtra("IDZamowienia",idlocal);
                 startActivity(i);
             }
         });

@@ -42,7 +42,7 @@ public class ShowNotSynchronizedOrders extends AppCompatActivity {
         ListView chl = (ListView)findViewById(R.id.NSslist);
 
         for(Zamowienia x: Orders){
-            displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerID() );
+            displayedk.add("ID \t: " + x.getID_zBazy()+ " Klient: " +x.getCustomerName() );
         }
 
 

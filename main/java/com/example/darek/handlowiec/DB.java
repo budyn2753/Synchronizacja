@@ -250,14 +250,14 @@ public class DB extends SQLiteOpenHelper {
     public ArrayList<Zamowienia> getZamowienia(){
         ArrayList<Zamowienia> orders = new ArrayList<Zamowienia>();
 
-        String sql ="Select ID_zBazy, UserID, CustomerID FROM " +TABELA_ZAMOWIEN + " Order by "+ KOLUMNA_ID_ZAMOWIENIA+ " ASC;";
+        String sql ="Select Zamowienie.ID, Zamowienie.ID_zBazy,  Zamowienie.UserID, Klienci.Nazwa FROM " +TABELA_ZAMOWIEN + " Inner Join Klienci ON Zamowienie.CustomerID = Klienci.CustomerID_zBazy ;";
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2)))));
+                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),Integer.parseInt(cursor.getString(2)),cursor.getString(3)));
                 i++;
             }while(cursor.moveToNext());
         }
@@ -273,7 +273,7 @@ public class DB extends SQLiteOpenHelper {
         int i =0;
         if(cursor.moveToFirst()){
             do{
-                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2))), Integer.parseInt(cursor.getString(3))));
+                orders.add(new Zamowienia(i, Integer.parseInt(cursor.getString(0)),(Integer.parseInt(cursor.getString(1))),(Integer.parseInt(cursor.getString(2))), cursor.getString(3)));
                 i++;
             }while(cursor.moveToNext());
         }
@@ -315,19 +315,23 @@ public class DB extends SQLiteOpenHelper {
 
         return products;
     }
-    public produkty getProductByID(String ID){
-        produkty product= new produkty();
+    public ArrayList<produkty> getProductByID(String ID) {
+        ArrayList<produkty> products = new ArrayList<>();
 
-        String sql ="Select * FROM " +TABELA_PRODUKTOW + "WHERE id_baza Order by "+ KOLUMNA_ID_Produktu+ " ASC;";
+        String sql = "Select p.id, p.Nazwa, p.Cena, p.Ilosc, p.id_baza FROM  Produkty p, SzczegolyZamowienie s WHERE s.IDZamLocal = " + ID +
+                " AND p.id_baza =  s.ProductID;";
 
-        SQLiteDatabase db =this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(sql,null);
-        int i =0;
-        if(cursor.moveToFirst()){
-            do{
-                product = new produkty(i, (Integer.parseInt(cursor.getString(4))),cursor.getString(1),(Float.parseFloat(cursor.getString(2))));
-            }while(cursor.moveToNext());
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        int i = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                products.add(new produkty(i, (Integer.parseInt(cursor.getString(4))), cursor.getString(1), (Float.parseFloat(cursor.getString(2)))));
+                i++;
+            } while (cursor.moveToNext());
         }
-        return product;
+
+
+        return products;
     }
 }

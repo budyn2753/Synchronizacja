@@ -10,20 +10,21 @@ public class Zamowienia {
     private int UserID;
     private int CustomerID;
     private int IDLocal;
+    private String CustomerName;
 
-    public Zamowienia (int ID, int ID_zBazy, int UserID, int CustomerID){
+    public Zamowienia (int ID, int ID_zBazy, int UserID, String CN){
         this.ID = ID;
         this.ID_zBazy=ID_zBazy;
         this.UserID =UserID;
-        this.CustomerID=CustomerID;
+        this.CustomerName=CN;
     }
 
-    public Zamowienia (int ID, int IDLocal, int ID_zBazy, int UserID, int CustomerID){
+    public Zamowienia (int ID, int IDLocal, int ID_zBazy, int UserID, String CN){
         this.ID = ID;
         this.IDLocal = IDLocal;
         this.ID_zBazy=ID_zBazy;
         this.UserID =UserID;
-        this.CustomerID=CustomerID;
+        this.CustomerName=CN;
     }
 
 
@@ -85,4 +86,11 @@ public class Zamowienia {
     }
 
 
+    public String getCustomerName() {
+        return CustomerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        CustomerName = customerName;
+    }
 }
