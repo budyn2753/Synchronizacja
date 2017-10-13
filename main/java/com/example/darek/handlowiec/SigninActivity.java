@@ -9,7 +9,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 
-
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.TextView;
@@ -20,18 +20,25 @@ import android.widget.Toast;
  * Created by Darek on 2017-09-12.
  */
 
-public class SigninActivity extends AsyncTask<String,String,String> {
+public class SigninActivity extends AsyncTask<String,Void,String> {
 
 
     private TextView statusField;
     private Context context;
 
-
+    private ProgressDialog progres = null;
 
     public SigninActivity(Context context,TextView statusField,int flag) {
         this.context = context;
         this.statusField = statusField;
 
+    }
+    @Override
+    protected void onPreExecute(){
+        progres = new ProgressDialog(context);
+        progres.setMessage("Proszę czekać");
+        progres.setTitle("Logowanie");
+        progres.show();
     }
 
     @Override
@@ -52,6 +59,8 @@ public class SigninActivity extends AsyncTask<String,String,String> {
             URLConnection conn = url.openConnection();
 
             conn.setDoOutput(true);
+            conn.setConnectTimeout(5000);
+            conn.setReadTimeout(5000);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
             wr.write(data);
@@ -83,6 +92,7 @@ public class SigninActivity extends AsyncTask<String,String,String> {
     @Override
     protected void onPostExecute(String result){
         this.statusField.setText(result);
+        progres.dismiss();
 
     }
 
