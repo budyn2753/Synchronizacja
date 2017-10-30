@@ -23,6 +23,7 @@ public class Spotkanie {
         this.element_id = id;
     }
 
+
     public int getElement_id() {
         return element_id;
     }
@@ -55,6 +56,17 @@ public class Spotkanie {
         Klient_ID = klient_ID;
     }
 
+    @Override
+    public boolean equals(Object object)
+    {
+        boolean sameSame = false;
 
+        if (object != null && object instanceof Spotkanie)
+        {
+            sameSame = this.getElement_id() == ((Spotkanie) object).getElement_id();
+        }
+
+        return sameSame;
+    }
 
 }
