@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="com.example.darek.handlowiec.MeetingsActivity">
+
+
+    <Button
+        android:id="@+id/btZakoncz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="UstalSpotkanie"
+
+        android:text="Dodaj Spotkanie" />
+
+    <ListView
+        android:id="@+id/meetinglist"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="false">
+
+    </ListView>
+</LinearLayout>

@@ -19,7 +19,11 @@ public class DB extends SQLiteOpenHelper {
     public static final String DB_NAZWA ="android";
     public static final String TABELA_KLIENTOW ="Klienci";
     public static final String TABELA_PRODUKTOW ="Produkty";
-    public static final String KOLUMNA_ID_KLIENT ="id";
+    public static final String TABELA_SPOTAKANIA="Spotkania";
+    public static final String KOLUMNA_ID_SP ="ID_Spotkania";
+    public static final String KOLUMNA_DATA_SP ="Data_Spotkania";
+    public static final String KOLUMNA_NOTATKA_DO_SPOTKANIA ="Notatka";
+    //public static final String KOLUMNA_ID_KLIENT ="id";
     public static final String KOLUMNA_NAZWA_KLIENTA ="Nazwa";
     public static final String KOLUMNA_NR ="nrtel";
     public static final String KOLUMNA_ID_Produktu ="id";
@@ -44,7 +48,7 @@ public class DB extends SQLiteOpenHelper {
     private ArrayList<String> Oo;
     private ArrayList<Integer> IDdoEdycji;
     //wersja bazy
-    private static final int DB_VERSION =12;
+    private static final int DB_VERSION =14;
 
     //KONSTRUKTOR
     public DB(Context context){super(context,DB_NAZWA,null,DB_VERSION);}
@@ -53,7 +57,7 @@ public class DB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
        // DariuszDariusz
-        String sql = "CREATE TABLE "+ TABELA_KLIENTOW + "("+KOLUMNA_ID_KLIENT+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+        String sql = "CREATE TABLE "+ TABELA_KLIENTOW + "("+KOLUMNA_ID_KLIENTA+" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + KOLUMNA_NAZWA_KLIENTA + " VARCHAR, "  + KOLUMNA_NR + " INTEGER, " + KOLUMNA_ID_KLIENTA_BAZY + " INTEGER);";
 
 
@@ -71,6 +75,14 @@ public class DB extends SQLiteOpenHelper {
                 +KOLUMNA_ID_ZAMOWIENIA_LOCAL+ " INT, " +KOLUMNA_ID_Z_BAZY_ZAMOWIENIA+ " INT, "+KOLUMNA_ID_PRODUKTU_SZ+ " INT, "  + KOLUMNA_ILOSC+ " INT, " + KOLUMNA_ORDERDATE + " VARCHAR(50)); ";
         db.execSQL(sql4);
 
+        String sql5 ="CREATE TABLE "+ TABELA_SPOTAKANIA +
+                "("+KOLUMNA_ID_SP+" INTEGER PRIMARY KEY AUTOINCREMENT, "
+                 +KOLUMNA_DATA_SP+ " DATE, "
+                +KOLUMNA_NOTATKA_DO_SPOTKANIA+ " TEXT, " +
+                "Klient_ID INTEGER , FOREIGN KEY ( Klient_ID ) REFERENCES " +TABELA_KLIENTOW+" ( "+KOLUMNA_ID_KLIENTA+" ));";
+        db.execSQL(sql5);
+//
+
 
     }
     //upgrading db
@@ -80,10 +92,12 @@ public class DB extends SQLiteOpenHelper {
         String sql1 = "DROP TABLE  Produkty";
         String sql2 = "DROP TABLE Zamowienie";
         String sql3 = "DROP TABLE SzczegolyZamowienie";
+        String sql4 = "DROP TABLE Spotkania";
         db.execSQL(sql);
         db.execSQL(sql1);
         db.execSQL(sql2);
         db.execSQL(sql3);
+        //db.execSQL(sql4);
         onCreate(db);
     }
     public boolean addKlient(String nazwa, int nrTel, int id_zBazy){
@@ -204,7 +218,6 @@ public class DB extends SQLiteOpenHelper {
         }
         return Ooo;
     }
-
     public ArrayList<String> getLastUnsyncIloscAndID(String id){
         String sql ="SELECT ProductID, Ilosc FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE IDZamLocal = "+id+";";
         Oo = new ArrayList<>();
@@ -219,7 +232,6 @@ public class DB extends SQLiteOpenHelper {
         }
         return Oo;
     }
-
     public ArrayList<Integer> getProductsIDFromSzczegoly(String id){
         String sql ="SELECT ProductID FROM " +TABELA_SZCZEGOLY_ZAMOWIENIA+" WHERE IDZamLocal = "+id+";";
         IDdoEdycji = new ArrayList<>();
@@ -283,7 +295,7 @@ public class DB extends SQLiteOpenHelper {
     public ArrayList<Klient> getClient(){
         ArrayList<Klient> client = new ArrayList<Klient>();
 
-        String sql ="Select Nazwa, nrtel, CustomerID_zBazy FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENT+ " ASC;";
+        String sql ="Select Nazwa, nrtel, CustomerID_zBazy FROM " +TABELA_KLIENTOW + " Order by "+ KOLUMNA_ID_KLIENTA+ " ASC;";//do spr
 
         SQLiteDatabase db =this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql,null);

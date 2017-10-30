@@ -115,6 +115,11 @@ public class Logon extends AppCompatActivity implements AsyncResponse {
 
     }
 
+    public void PokazSpotkania(View v){
+        Intent i =  new Intent (Logon.this, MeetingsActivity.class);
+        startActivity(i);
+    }
+
     @Override
     public void processFinish(String output) {
         text =output;

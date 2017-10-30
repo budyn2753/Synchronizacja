@@ -34,7 +34,8 @@
         <activity android:name=".ShowNotSynchronizedOrders" />
         <activity android:name=".Synchronizuj" />
         <activity android:name=".ActivityProdukty" />
-        <activity android:name=".ShowProduktyZamowienia"></activity>
+        <activity android:name=".ShowProduktyZamowienia" />
+        <activity android:name=".MeetingsActivity" />
     </application>
 
 </manifest>
