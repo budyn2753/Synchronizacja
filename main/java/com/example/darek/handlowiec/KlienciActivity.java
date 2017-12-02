@@ -99,6 +99,11 @@ public class KlienciActivity extends AppCompatActivity implements AsyncResponse 
     }
 
     @Override
+    public void onPause(){
+        super.onPause();
+        finish();
+    }
+    @Override
     public void processFinish(String output) {
         text =output;
     }

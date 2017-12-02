@@ -28,7 +28,7 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
 
     private ProgressDialog progres = null;
 
-    public SigninActivity(Context context,TextView statusField,int flag) {
+    public SigninActivity(Context context,TextView statusField) {
         this.context = context;
         this.statusField = statusField;
 
@@ -82,7 +82,7 @@ public class SigninActivity extends AsyncTask<String,Void,String> {
             return sb.toString();
 
         } catch (Exception e) {
-            return new String("Exception: " + e.getMessage());
+            return new String("0");
         }
 
 

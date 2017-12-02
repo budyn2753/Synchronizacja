@@ -189,6 +189,9 @@ public class ActivityProdukty extends Activity implements AsyncResponse {
 
         Intent i = new Intent(ActivityProdukty.this, ShowMyOrders.class);
         startActivity(i);
+        super.finish();
+
+
 
     }
 

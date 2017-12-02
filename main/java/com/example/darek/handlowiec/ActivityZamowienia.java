@@ -151,11 +151,13 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
             db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
         }else {
             db.addZamowienie(0, Integer.parseInt(logedUser), IDKlienta);
-            String x = db.getLastOrderID();
-            String y = Integer.toString(IDKlienta);
-            new AddZamowienie(this).execute(logedUser, y, x);
+            String lOrderID = db.getLastOrderID();
+            String idKlienta = Integer.toString(IDKlienta);
+
+            Toast.makeText(this, " Dodaje zamowienia jako Zalogowany: "+ logedUser+ "ID zamowienia: "+idKlienta + "Zalogowany: "+lOrderID, Toast.LENGTH_SHORT).show();
+            new AddZamowienie(this).execute(logedUser, idKlienta, lOrderID);
             getIDz.delegate = this;
-            getIDz.execute(logedUser, x);
+            getIDz.execute(logedUser, lOrderID);
             try {
                 id_Zamowienia = getIDz.get();
             } catch (ExecutionException e) {
@@ -163,7 +165,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
             }
 
 
-            db.updateZamowienia(x, id_Zamowienia);
+            db.updateZamowienia(lOrderID, id_Zamowienia);
         }
 
         for(produkty item:selectedItems){
@@ -185,6 +187,7 @@ public class ActivityZamowienia extends Activity implements AsyncResponse {
 
         Intent i = new Intent(ActivityZamowienia.this, ShowMyOrders.class);
         startActivity(i);
+        //this.finish();
 
     }
 

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,25 +23,31 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.Context.ALARM_SERVICE;
+
 public class MeetingsActivity extends AppCompatActivity {
 
     ArrayList<Spotkanie> Meetings = new ArrayList<Spotkanie>();
     ArrayList<String> displayedk = new ArrayList<String>();
+    ArrayList<String>KlienciSP = new ArrayList<String>();
     DB db;
     private DatePicker datePicker;
     private Calendar calendar;
     private int year, month, day , h, minute;
     final static int RQS_1 = 4;
+    public int wybranyKlient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings);
 
+
         db = new DB(this);
 
         FillSpotkania();
-
+        KlienciSP = db.getClientsNames();
+        //Toast.makeText(this,KlienciSP.toString(),Toast.LENGTH_SHORT).show();
         ListView chl = (ListView)findViewById(R.id.meetinglist);
 
         for(Spotkanie x: Meetings){
@@ -58,20 +65,52 @@ public class MeetingsActivity extends AppCompatActivity {
             }
         });
 
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        Calendar now = Calendar.getInstance();
+        year = now.get(Calendar.YEAR);
+        month = now.get(Calendar.MONTH);
+        day = now.get(Calendar.DAY_OF_MONTH);
+        h = now.get(Calendar.HOUR);
+        minute = now.get(Calendar.MINUTE);
     }
+
 
     @SuppressWarnings("deprecation")
     public void UstalSpotkanie (View v){
-        showDialog(999);
+        final CharSequence[] nazwy = new CharSequence[KlienciSP.size()];
+        int i=0;
+        for (String k: KlienciSP) {
+            nazwy[i] =k;
+            i++;
+            //Toast.makeText(this,nazwy[i]+"\n",Toast.LENGTH_SHORT).show();
+        }
+
+        AlertDialog.Builder chceknox_dialog = new AlertDialog.Builder(this);
+        chceknox_dialog.setTitle("Wybierz Klienta");
+        chceknox_dialog.setSingleChoiceItems(nazwy, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                String txt = nazwy[i].toString();
+                txt.trim();
+                String [] tmp = txt.split(" ");
+                wybranyKlient = Integer.parseInt(tmp[0]);
+               // int z = Integer.getInteger(txt);
+
+                Toast.makeText(getApplicationContext(),Integer.toString(wybranyKlient),Toast.LENGTH_SHORT).show();
+                showDialog(999);
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog zaznaczenie =chceknox_dialog.create();
+        zaznaczenie.show();
+
+
     }
     @Override
     protected Dialog onCreateDialog(int id) {
         // TODO Auto-generated method stub
+
+
         if (id == 999) {
 
             return new DatePickerDialog(this,
@@ -81,6 +120,7 @@ public class MeetingsActivity extends AppCompatActivity {
             return new TimePickerDialog(this,onTimeListener, h,minute,true);
 
         }
+
         return null;
     }
 
@@ -95,7 +135,7 @@ public class MeetingsActivity extends AppCompatActivity {
                     // arg2 = month
                     // arg3 = day
                     year= arg1;
-                    month= arg2+1;
+                    month= arg2;
                     day = arg3;
                     showDialog(888);
 
@@ -107,31 +147,51 @@ public class MeetingsActivity extends AppCompatActivity {
                         public  void onTimeSet(TimePicker view, int arg1, int arg2){
                             h = arg1;
                             minute =arg2;
-                            showDate(year,month,day,h,minute);
-                            setAlarm(calendar);
+
+                            Calendar gt = Calendar.getInstance();
+
+                            gt.set(year,month,day,h,minute,00);
+                            Calendar current = Calendar.getInstance();
+                            if(gt.compareTo(current)<= 0){
+                                Toast.makeText(getApplicationContext(),"Zła data",Toast.LENGTH_SHORT).show();
+
+                            }
+                            else {
+                                long i;
+                                i = gt.getTimeInMillis() - current.getTimeInMillis();
+                                Toast.makeText(getApplicationContext(),"Dobra data: " + Long.toString(i) ,Toast.LENGTH_SHORT).show();
+                                setAlarm(gt);
+                            }
+
+
+                            //setAlarm(calendar.getTimeInMillis());
                         }
                     };
-    public void showDate(int y, int m, int d , int h, int min){
+    public String getDate(int y, int m, int d , int h, int min){
         StringBuilder sb = new StringBuilder();
-        sb.append(d);
+        sb.append(y);
         sb.append("-");
         sb.append(m);
         sb.append("-");
-        sb.append(y);
+        sb.append(d);
         sb.append("  ");
         sb.append(h);
         sb.append(":");
-        sb.append(minute);
+        sb.append(min);
 
-        Toast.makeText(this,sb.toString(),Toast.LENGTH_LONG).show();
+
+        db.addSpotkanie(sb.toString(),"",wybranyKlient);
+        FillSpotkania();
+        return sb.toString();
 
 
     }
     public void FillSpotkania(){
 
-        Meetings.add(new Spotkanie(0,"2017-11-01","sadassdasd",1));
-        Meetings.add(new Spotkanie(1,"2017-10-16","asdsasdassdasd",2));
-        Meetings.add(new Spotkanie(2,"2017-10-16","saddasd",3));
+        Meetings = db.getSpotkania();
+        //Meetings.add(new Spotkanie(0,"2017-11-01","sadassdasd",1));
+        //Meetings.add(new Spotkanie(1,"2017-10-16","asdsasdassdasd",2));
+        //Meetings.add(new Spotkanie(2,"2017-10-16","saddasd",3));
     }
     private void alertView( String message ) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -144,13 +204,16 @@ public class MeetingsActivity extends AppCompatActivity {
                 }).show();
     }
 
-    private void setAlarm(Calendar targetCal){
+    private void setAlarm(Calendar target){
 
-       // Intent intent = new Intent(getBaseContext(), AlarmReceiver.class); //ALARM IS SET
-        //@SuppressWarnings("deprecation")
-        //PendingIntent pendingIntent = PendingIntent.getBroadcast(getBaseContext(), RQS_1, intent, 0);
-        //AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        //alarmManager.set(AlarmManager.RTC_WAKEUP, targetCal.getTimeInMillis(), pendingIntent);
+        Intent i = new Intent(MeetingsActivity.this, Alarm.class);
+        i.putExtra("Naglowek", "Spotkanie z jegomościem");
+        i.putExtra("Czas", getDate(year,month,day,h,minute));
+        @SuppressWarnings("deprecation")
+        PendingIntent pi = PendingIntent.getBroadcast(getBaseContext(),RQS_1,i,0);
+        AlarmManager am =  (AlarmManager)getSystemService(ALARM_SERVICE);
+        am.set(AlarmManager.RTC_WAKEUP,target.getTimeInMillis(),pi);
+
     }
 
 

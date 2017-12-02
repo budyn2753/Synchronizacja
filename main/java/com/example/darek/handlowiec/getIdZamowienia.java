@@ -42,7 +42,7 @@ public class getIdZamowienia extends AsyncTask<String,String,String> {
 
             conn.setDoOutput(true);
             OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-
+            //Toast.makeText(conn.ap,"Dodane poprawinie",Toast.LENGTH_SHORT).show();
             wr.write(data);
             wr.flush();
 

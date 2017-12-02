@@ -1,9 +1,12 @@
 package com.example.darek.handlowiec;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,13 +20,14 @@ public class Synchronizuj extends AppCompatActivity implements AsyncResponse {
     int id_Zamowienia, idKlienta;
     String idZamzBazy ;
 
-    private TextView Szczegoly;
+    private TextView Szczegoly, status;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_synchronizuj);
 
         Szczegoly =(TextView)findViewById(R.id.textViewSzczegoly);
+        status = (TextView)findViewById(R.id.statustextView);
         logedUser = getIntent().getStringExtra("logedUser");
         id_Zamowienia = getIntent().getIntExtra("IDZamowienia",0);
         idKlienta =  getIntent().getIntExtra("IDKlienta",0);
@@ -37,9 +41,53 @@ public class Synchronizuj extends AppCompatActivity implements AsyncResponse {
 
         if (Integer.parseInt(logedUser) == 0) {
             Toast.makeText(this, "Musisz być zalogowany aby synchronizować!!!", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(Synchronizuj.this, Logon.class);
-            startActivity(i);
-        } else {
+            final Dialog login = new Dialog(this);
+            // Set GUI of login screen
+            login.setContentView(R.layout.logon_dialog);
+            login.setTitle("Login");
+
+            // Init button of login GUI
+            Button btnLogin = (Button) login.findViewById(R.id.btnLogin);
+            Button btnCancel = (Button) login.findViewById(R.id.btnCancel);
+            final EditText txtUsername = (EditText)login.findViewById(R.id.txtUsername);
+            final EditText txtPassword = (EditText)login.findViewById(R.id.txtPassword);
+
+            // Attached listener for login GUI button
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(txtUsername.getText().toString().trim().length() > 0 && txtPassword.getText().toString().trim().length() > 0)
+                    {
+
+                        new SigninActivity(Synchronizuj.this, status).execute(txtUsername.getText().toString(), txtUsername.getText().toString());
+                        //Redirect to dashboard / home screen.
+                        login.dismiss();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Please enter Username and Password", Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    login.dismiss();
+                }
+            });
+
+            // Make dialog box visible.
+            login.show();
+            Toast.makeText(this, "Musisz być zalogowany aby synchronizować!!!", Toast.LENGTH_SHORT).show();
+            String txt = status.getText().toString();
+            String [] tmp = txt.split(" ");
+
+            logedUser = tmp[0];
+
+
+        } else if(logedUser != "0") {
             idZamzBazy = "";
 
             int licznik = Integer.parseInt(db.getUnsycedCountOfSzZamID(Integer.toString(id_Zamowienia)));
@@ -75,6 +123,11 @@ public class Synchronizuj extends AppCompatActivity implements AsyncResponse {
 
 
         }
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
     }
     @Override
     public void processFinish(String output) {

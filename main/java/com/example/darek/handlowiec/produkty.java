@@ -29,6 +29,11 @@ public class produkty {
         setId_baza(id_baza_K);
     }
 
+    produkty (int id, String nazwa, int ilosc){
+        this.id=id;
+        this.nazwa = nazwa;
+        this.ilosc = ilosc;
+    }
     produkty(int id_k, String nazwa_k, float cena_k){
         setId(id_k);
         setNazwa(nazwa_k);

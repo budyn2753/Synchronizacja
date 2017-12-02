@@ -63,8 +63,14 @@ public class ShowMyOrders extends AppCompatActivity {
     }
 
     public void Zakoncz(View v){
+        //db.clearZam();
         Intent i = new Intent(ShowMyOrders.this, Logon.class);
         startActivity(i);
+    }
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
     }
 
     private void FillZamowienia(){
